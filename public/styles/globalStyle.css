@@ -33,13 +33,13 @@ button {
 /* For Follow button */
 .btnFollow::before {
   content: ' ';
-  background-image: url(/icons/avatar1_blue.svg);
+  background-image: url(/assets/icons/avatar1_blue.svg);
   background-repeat: no-repeat;
   padding: 0 0.2rem 0 1rem;
 }
 .btnFollow:hover::before {
   content: ' ';
-  background-image: url(/icons/avatar1_white.svg);
+  background-image: url(/assets/icons/avatar1_white.svg);
   background-repeat: no-repeat;
   padding: 0 0.2rem 0 1rem;
 }
@@ -87,36 +87,36 @@ span.btnLike > .iconLabel {
   color: #0496FF;
 }
 .likeIcon {
-  background-image: url("/icons/heart_gray.svg");
+  background-image: url("/assets/icons/heart_gray.svg");
   background-repeat: no-repeat;
 }
 .likeIcon:hover {
-  background-image: url("/icons/heart_red.svg");
+  background-image: url("/assets/icons/heart_red.svg");
   background-repeat: no-repeat;
 }
 .liked {
-  background-image: url("/icons/heart_filled.svg");
+  background-image: url("/assets/icons/heart_filled.svg");
   background-repeat: no-repeat;
   
 }
 .commentIcon {
-  background-image: url("/icons/chat_gray.svg");
+  background-image: url("/assets/icons/chat_gray.svg");
   background-repeat: no-repeat;
 }
 .commentIcon:hover {
-  background-image: url("/icons/chat_blue.svg");
+  background-image: url("/assets/icons/chat_blue.svg");
   background-repeat: no-repeat;
 }
 .bookmarkIcon {
-  background-image: url("/icons/bookmark_gray.svg");
+  background-image: url("/assets/icons/bookmark_gray.svg");
   background-repeat: no-repeat;
 }
 .bookmarkIcon:hover {
-  background-image: url("/icons/bookmark_blue.svg");
+  background-image: url("/assets/icons/bookmark_blue.svg");
   background-repeat: no-repeat;
 }
 .bookmarked {
-  background-image: url("/icons/bookmark_filled.svg");
+  background-image: url("/assets/icons/bookmark_filled.svg");
   background-repeat: no-repeat;
   background-size: contain;
 }

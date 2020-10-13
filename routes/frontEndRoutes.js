@@ -1,7 +1,7 @@
 const express = require('express')
 const csrf = require('csurf')
 const fetch = require('node-fetch')
-const { asyncHandler, rankBookmarks } = require('../utils')
+const { asyncHandler, rankStories } = require('../utils')
 const { api } = require('../config')
 const {
   getUser,
@@ -12,12 +12,10 @@ const {
   getFollowCounts,
   getFollowedUsers,
   getFollowingUsers,
-
   getStory,
   getAllStories,
   getDiscoveryStories,
   getStoriesByFollowedAuthors,
-  getCommentsForStory,
 } = require("../fetches.js")
 
 const csrfProtection = csrf({ cookie: true });
@@ -26,15 +24,14 @@ const frontEndRouter = express.Router();
 
 // Individual Story page.
 frontEndRouter.get("/stories/:id(\\d+)", async (req, res) => {
-  const story = await getStoryById(req.params.id)
+  const story = await getStory(req.params.id)
   res.render('story-layout', { story, title: story.title, api });
-});
+})
 
 
 // Home page. Splash + Feed
 frontEndRouter.get("/", asyncHandler(async (req, res) => {
   try {
-    console.log("noooo")
     let stories = await getAllStories()
     let discoveryStories = await getDiscoveryStories()
 
@@ -45,11 +42,10 @@ frontEndRouter.get("/", asyncHandler(async (req, res) => {
     let bookmarks = await getBookmarkedStoriesForUser(1)
     // TODO How do I get userId here?
     const isEnoughBookmarks = bookmarks.length >= 6
-    if (isEnoughBookmarks) bookmarks = rankBookmarks(bookmarks)
+    if (isEnoughBookmarks) bookmarks = rankStories(bookmarks)
 
     let topics = await fetch(`${api}/api/topics`)
     topics = await topics.json()
-    console.log("topics ey?", topics)
 
     const slideshow = {
       img1: `assets/slideshow/1.jpg`,

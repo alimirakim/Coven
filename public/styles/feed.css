@@ -116,7 +116,7 @@
 }
 .bookmarkMessage::after {
     content: '';
-    background-image: url(/icons/bookmark.svg);
+    background-image: url(/assets/icons/bookmark.svg);
     height: fit-content;
     width: fit-content;
     padding-left: .92em;
@@ -273,7 +273,7 @@ justify-self: center;
 
 .bookmarkButtonFeed::before {
     content: '';
-    background-image: url(/icons/icon-bookmark-red-gray.png);
+    background-image: url(/assets/icons/bookmark_gray.svg);
     background-size: cover;
     height: 100%;
     width: 100%;
@@ -282,7 +282,7 @@ justify-self: center;
 }
 .bookmarkButtonFeed.clicked::before {
     /* content: ''; */
-    background-image: url(/icons/icon-bookmark-red.png);
+    background-image: url(/assets/icons/bookmark_blue.svg);
     /* background-size: cover; */
     /* height: 100%; */
     /* width: 100%; */
@@ -362,12 +362,12 @@ a {
 
 .trendingSectionHeaderTitle::before {
     content: '';
-    background-image: url(/icons/Bear_of_California_glow.svg);
+    background-image: url(/assets/icons/heart_red.svg);
+    background-repeat: no-repeat;
     height: 100%;
     width: 100%;
     padding-right: 1.85rem;
     letter-spacing: 1.4px;
-    margin-right: 2.2em;
 }
 
 .trendingPostBlock {

@@ -1,6 +1,5 @@
 const { validationResult } = require("express-validator")
 const { User, Story, Comment, Like, Topic, Tag } = require("./db/models");
-const topic = require("./db/models/topic");
 
 function asyncHandler(handler) {
   return (req, res, next) => {
@@ -72,11 +71,12 @@ function getDates(content) {
   })
 }
 
-function rankBookmarks(bookmarks) {
+function rankStories(stories) {
   let count = 1
-  bookmarks = bookmarks.slice(0, 6)
-  return bookmarks.map(story => {
-    story.rank = count++
+  stories = stories.slice(0, 6)
+  return stories.map(story => {
+    story.rank = count
+    count++
     return story
   })
 }
@@ -114,5 +114,5 @@ module.exports = {
   userAttributes,
   storyAttributes,
   getDate, getDates,
-  checkIfEnoughBookmarks: rankBookmarks
+  rankStories
 }

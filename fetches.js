@@ -1,5 +1,5 @@
 const fetch = require("node-fetch")
-const { getDate, getDates } = require("./utils")
+const { getDate, getDates, rankStories } = require("./utils")
 const { api } = require('./config')
 
 
@@ -36,7 +36,9 @@ async function getAllStories() {
 }
 async function getDiscoveryStories() {
   let stories = await fetch(`${api}/api/stories/discover`)
-  return await stories.json()
+  stories = await stories.json()
+  stories = getDates(stories)
+  return rankStories(stories)
 }
 
 
@@ -56,10 +58,12 @@ async function getFollowingUsers(id) {
 async function getBookmarkedStoriesForUser(id) {
   let bookmarks = await fetch(`${api}/api/users/${id}/bookmarks`)
   bookmarks = await bookmarks.json()
-  return bookmarks.map(bookmark => {
+  bookmarks = bookmarks.map(bookmark => {
     bookmark.Story.createdAt = getDate(bookmark.Story.createdAt)
     return bookmark
   })
+  console.log("bookmarks\n", bookmarks)
+  return bookmarks
 }
 
 // Fetch array of Stories Liked by User and convert 'createdAt' to be readable.

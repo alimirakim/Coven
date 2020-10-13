@@ -1,47 +1,48 @@
 include includes/utils
 
-//- .feedBody
 //- script(defer type="module" src="js/feed.js")
 link(rel='stylesheet' type='text/css' href='/styles/feed.css')
 
 block feedBlock
-  //- hr.divider
-  //- .trendingStory
-  //-   .trendingHeaderContainer: .trendingSectionHeaderTitle   DISCOVER ON MEDAYUM
-  //-   if isEnoughBookmarks
-  //-     each bookmark in bookmarkedStories
-  //-       .trendingPostBlock
-  //-         .trendingPostNumberSection 0#{bookmark.rank}
-  //-         h2.trendingPostTitle: a(href=`/stories/${bookmark.Story.id}`)= bookmark.Story.title
-  //-         .trendingPostAuthor: +authorBlurb(bookmark.Story.Author)
-  //-         .trendingPostDate.cardCreatedDate= bookmark.Story.createdAt
-  //-   else
-  //-     each story in discoveryStories
-  //-       .trendingPostBlock
-  //-         .trendingPostNumberSection 0#{story.rank}
-  //-         h2.trendingPostTitle: a(href=`/stories/${story.id}`)= story.title
-  //-         .trendingPostAuthor: +authorBlurb(story.Author)
-  //-         .trendingPostDate.cardCreatedDate= story.createdAt
+
+  hr.divider
+  
+  .trendingStory
+    .trendingHeaderContainer: .trendingSectionHeaderTitle   DISCOVER AT COVEN
+    if isEnoughBookmarks
+      each bookmark in bookmarkedStories
+        .trendingPostBlock
+          .trendingPostNumberSection 0#{bookmark.rank}
+          h2.trendingPostTitle: a(href=`/stories/${bookmark.Story.id}`)= bookmark.Story.title
+          .trendingPostAuthor: +authorBlurb(bookmark.Story.Author)
+          .trendingPostDate.cardCreatedDate= bookmark.Story.createdAt
+    else
+      each story in discoveryStories
+        .trendingPostBlock
+          .trendingPostNumberSection 0#{story.rank}
+          h2.trendingPostTitle: a(href=`/stories/${story.id}`)= story.title
+          .trendingPostAuthor: +authorBlurb(story.Author)
+          .trendingPostDate.cardCreatedDate= story.createdAt
 
   hr.divider
 
-  //- .feedContainer
-  //-   .storyContainer
-  //-     each story in stories
-  //-       .storySection
-  //-         .storyInfoDiv
-  //-           .storyAuthorName: +authorBlurb(story.Author)
-  //-           a(href=`/stories/${story.id}`).storyLink #{story.title}
-  //-           .storyCreatedAt= story.createdAt
-  //-           +storyIcons(story)
-  //-           //- .createBookmarkButtonFeed: a(data-storyid=story.storyId).bookmarkButtonFeed
-  //-         .storyPicDiv
-  //-           .storyImgDiv
-  //-             img(src=`/assets/stories/${story.id}-1.jpg`)
-  //-   .bookmarkFeedContainer
-  //-     .noBookmarksForAuthor
-  //-       .bookmarkMessage        Bookmark stories for later
-  //-       .bookmarkInstructions   Start saving stories by clicking the bookmark icon and you’ll find them all here.
+  .feedContainer
+    .storyContainer
+      each story in stories
+        .storySection
+          .storyInfoDiv
+            .storyAuthorName: +authorBlurb(story.Author)
+            a(href=`/stories/${story.id}`).storyLink #{story.title}
+            .storyCreatedAt= story.createdAt
+            +storyIcons(story)
+            //- .createBookmarkButtonFeed: a(data-storyid=story.storyId).bookmarkButtonFeed
+          .storyPicDiv
+            .storyImgDiv
+              img(src=`/assets/stories/${story.id}-1.jpg`)
+    .bookmarkFeedContainer
+      .noBookmarksForAuthor
+        .bookmarkMessage        Bookmark stories for later
+        .bookmarkInstructions   Start saving stories by clicking the bookmark icon and you’ll find them all here.
       //- .bookmarkSection
       //-     .bookmarkTitle
       //-     .bookmarkAuthor
