@@ -16,7 +16,7 @@ module.exports = {
       userId: {
         allowNull: false,
         type: Sequelize.INTEGER,
-        references: { mode: "Users" }
+        references: { model: "Users" }
       },
       createdAt: {
         allowNull: false,

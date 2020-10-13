@@ -1,10 +1,23 @@
 const express = require('express')
 const csrf = require('csurf')
 const fetch = require('node-fetch')
-const { asyncHandler } = require('../utils')
+const { asyncHandler, rankBookmarks } = require('../utils')
 const { api } = require('../config')
 const {
+  getUser,
+  getStoriesByUser,
+  getBookmarkedStoriesForUser,
+  getLikesByUser,
+  getCommentsByUser,
+  getFollowCounts,
+  getFollowedUsers,
+  getFollowingUsers,
 
+  getStory,
+  getAllStories,
+  getDiscoveryStories,
+  getStoriesByFollowedAuthors,
+  getCommentsForStory,
 } = require("../fetches.js")
 
 const csrfProtection = csrf({ cookie: true });
@@ -17,33 +30,43 @@ frontEndRouter.get("/stories/:id(\\d+)", async (req, res) => {
   res.render('story-layout', { story, title: story.title, api });
 });
 
+
 // Home page. Splash + Feed
 frontEndRouter.get("/", asyncHandler(async (req, res) => {
   try {
+    console.log("noooo")
     let stories = await getAllStories()
-    const trendingStories = await getTrendingStories()
-    let bookmarkedStories = await getBookmarkedStoriesForUser(1)
+    let discoveryStories = await getDiscoveryStories()
+
+    // const random = Math.floor(Math.random() * Math.floor(stories.length))
+    // TODO Make a list of random stories from the fetched list, not 2nd fetch.
+    // TODO Check if this has an off-by-one issue.
+
+    let bookmarks = await getBookmarkedStoriesForUser(1)
     // TODO How do I get userId here?
-    const isEnoughBookmarks = bookmarkedStories.length >= 6
-    let count = 1
-    if (isEnoughBookmarks) {
-      bookmarkedStories = bookmarkedStories.slice(0, 6)
-      bookmarkedStories = bookmarkedStories.map(story => {
-        story.rank = count++
-        return story
-      })
-    }
+    const isEnoughBookmarks = bookmarks.length >= 6
+    if (isEnoughBookmarks) bookmarks = rankBookmarks(bookmarks)
+
     let topics = await fetch(`${api}/api/topics`)
     topics = await topics.json()
+    console.log("topics ey?", topics)
+
+    const slideshow = {
+      img1: `assets/slideshow/1.jpg`,
+      img2: `assets/slideshow/2.jpg`,
+      img3: `assets/slideshow/3.jpg`,
+      img4: `assets/slideshow/4.jpg`,
+      img5: `assets/slideshow/5.jpg`,
+    }
 
     res.render('index', {
-      title: "MeDaYum Feed",
+      title: "Coven",
       stories,
       topics,
-      trendingStories,
-      bookmarkedStories,
+      discoveryStories,
+      bookmarks,
       isEnoughBookmarks,
-      api
+      slideshow
     });
   } catch (error) {
     res.render('index')

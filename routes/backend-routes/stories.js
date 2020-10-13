@@ -1,7 +1,6 @@
 const express = require('express');
 const { check } = require('express-validator');
-const tag = require('../../db/models/tag');
-const { Story, Comment, Like, Bookmark, User, Tag, sequelize } = ('../../db/models')
+const { Story, Comment, Like, Bookmark, User, Tag, sequelize } = require('../../db/models')
 const {
   asyncHandler,
   handleValidationErrors,

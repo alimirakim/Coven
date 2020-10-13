@@ -1,18 +1,7 @@
-const { default: fetch } = require("node-fetch")
+const fetch = require("node-fetch")
 const { getDate, getDates } = require("./utils")
+const { api } = require('./config')
 
-async function getTrendingStories() {
-  let stories = await fetch(`${api}/api/stories/trending`)
-  stories = await stories.json()
-  stories = getDates(stories)
-  let count = 1
-  stories = stories.map(story => {
-    story.rank = count;
-    count++
-    return story
-  })
-  return stories
-}
 
 // Fetch User by id without password info.
 async function getUser(id) {
@@ -45,7 +34,7 @@ async function getAllStories() {
   stories = await stories.json()
   return getDates(stories)
 }
-async function getDiscoverStories() {
+async function getDiscoveryStories() {
   let stories = await fetch(`${api}/api/stories/discover`)
   return await stories.json()
 }
@@ -96,4 +85,21 @@ async function getCommentsForStory(id) {
   comments = await comments.json()
   comments = getDates(comments)
   return comments
+}
+
+module.exports = {
+  getUser,
+  getStoriesByUser,
+  getBookmarkedStoriesForUser,
+  getLikesByUser,
+  getCommentsByUser,
+  getFollowCounts,
+  getFollowedUsers,
+  getFollowingUsers,
+
+  getStory,
+  getAllStories,
+  getDiscoveryStories,
+  getStoriesByFollowedAuthors,
+  getCommentsForStory,
 }

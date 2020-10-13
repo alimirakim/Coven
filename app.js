@@ -18,7 +18,6 @@ app.use(express.json())
 app.set("view engine", "pug")
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, "public")));
 
 // Dev dependencies
 const morgan = require("morgan")
@@ -33,6 +32,8 @@ app.use("/api", commentsRouter)
 app.use("/api", bookmarksRouter)
 app.use("/api", likesRouter)
 app.use("/api", topicsRouter)
+
+app.use(express.static(path.join(__dirname, "public")));
 
 // 404 Catch unhandled requests
 app.use((req, res, next) => {

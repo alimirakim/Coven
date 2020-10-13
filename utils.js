@@ -64,7 +64,6 @@ function getDate(createdAt) {
   let parsedDate = new Date(createdAt)
   return parsedDate.toDateString().slice(4)
 }
-
 // Provide list of objects with 'createdAt' property to update to form 'Jan 01 2020'.
 function getDates(content) {
   return content.map(item => {
@@ -72,6 +71,16 @@ function getDates(content) {
     return item
   })
 }
+
+function rankBookmarks(bookmarks) {
+  let count = 1
+  bookmarks = bookmarks.slice(0, 6)
+  return bookmarks.map(story => {
+    story.rank = count++
+    return story
+  })
+}
+
 const userAttributes = ["id", "firstName", "lastName", "bio"]
 const storyAttributes = ["id", "title", "subtitle", "createdAt", "authorId"]
 
@@ -105,4 +114,5 @@ module.exports = {
   userAttributes,
   storyAttributes,
   getDate, getDates,
+  checkIfEnoughBookmarks: rankBookmarks
 }
