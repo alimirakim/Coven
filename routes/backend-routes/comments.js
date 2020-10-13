@@ -8,70 +8,52 @@ const {
   checkForStory,
   checkForUser,
   checkForComment,
-  storyInclude
+  storyInclude,
+  userAttributes, storyAttributes
 } = require('../../utils');
 const router = express.Router();
 
 const commentValidator = [
   check('body')
-    .exists({
-      checkNull: true,
-      checkFalsy: true
-    })
+    .exists({ checkFalsy: true })
     .withMessage('Your comment must have a body')
 ];
 
 // Get a Comment by id
-// Existing comment: gets comment
-// Non-existing Comment: 404 Comment Not Found
-// Non-integer Comment id: 404 Generic Not Found
 router.get('/comments/:id(\\d+)',
   asyncHandler(checkForComment),
   asyncHandler(async (req, res) => {
     const comment = await Comment.findByPk(req.params.id, {
       include: [
-        { model: User, attributes: ["id", "firstName", "lastName"] },
-        { model: Story, attributes: ["id", "title", "createdAt", "authorId"] }
+        { model: User, attributes: userAttributes },
+        { model: Story, attributes: storyAttributes }
       ]
     })
-    comment.Story.Author = await User.findByPk(comment.Story.authorId,
-      { attributes: ["id", "firstName", "lastName"] }
-    )
     res.json(comment)
   })
 )
 
-// Get all Comments by a User by id
-// Existing user: Gets list of User's comments
-// Non-existing user: 404 User Not Found
-// Non-integer user id: 404 Generic Not Found
+// Get Comments by a User. Includes limited Story data.
 router.get('/users/:id(\\d+)/comments',
   asyncHandler(checkForUser),
   asyncHandler(async (req, res) => {
     let userComments = await Comment.findAll({
       where: { userId: req.params.id },
-      include: [{
-        model: Story,
-        attributes: ["id", "title", "authorId", "createdAt"],
-        include: storyInclude
-      }]
+      include: {
+        model: Story, attributes: storyAttributes, include: storyInclude
+      }
     });
     res.json(userComments)
   })
 )
 
-// Get all Comments for a Story by id
-// Existing story: Gets list of Story's comments
-// Non-existing story: 404 Story Not Found
-// Non-integer story: Generic Not Found
-router.get(
-  '/stories/:id(\\d+)/comments',
+// Get Comments for a Story. Includes limited User data.
+router.get('/stories/:id(\\d+)/comments',
   asyncHandler(checkForStory),
   asyncHandler(async (req, res) => {
     storyComments = await Comment.findAll({
       where: { storyId: req.params.id },
-      include:
-        { model: User, attributes: ["id", "firstName", "lastName"] },
+      include: { model: User, attributes: userAttributes },
       order: [['createdAt', 'DESC']]
     });
     res.json(storyComments)
@@ -79,60 +61,44 @@ router.get(
 )
 
 
-// Post a new Comment to a Story by id
-// MIRA Tested
-// Existing story/user and body: makes post
-// Non-existing user: 500
-// Non-existing story: 404 Story Not Found
-// Non-integer story id: 404 Not found
-// Non-integer user id: 500 Server Error
-// No body: 500 Server Error, Comment.body can't be null
-// Body is empty string: 400 Bad Request, error message from validator
-router.post(
-  '/stories/:id(\\d+)/comments',
+// Post a Comment to a Story. Must provide 'body' and 'userId'.
+router.post('/stories/:id(\\d+)/comments',
   asyncHandler(checkForStory),
   commentValidator,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
-    const { body, userId } = req.body;
+    const { body, userId } = req.body
+    const user = await User.findByPk(userId)
+    
+    if (user) {
     const comment = await Comment.create({
       body, userId, storyId: req.params.id
-    });
+    })
     res.json(comment);
+  } else {
+    handleE
+  }
   })
 );
 
-// Update Comment by id
-// Existing comment, valid body: updates comment.
-// Non-existing comment: 404 Comment Not Found
-// Non-integer comment id: 404 Generic Not Found
-// Existing comment, no body: 400 Bad Request, "Your comment must have body"
-// Existing comment, empty string body: 400 Bad Request, "Your comment must have body"
-router.patch(
-  '/comments/:id(\\d+)',
+// Update Comment.
+router.patch('/comments/:id(\\d+)',
   commentValidator,
   handleValidationErrors,
   asyncHandler(checkForComment),
   asyncHandler(async (req, res) => {
-    const { body } = req.body;
-    const updatedComment = await req.comment.update({ body });
+    const updatedComment = await req.comment.update({ body: req.body.body });
     res.json(updatedComment);
   })
 );
 
 // Delete a Comment by id
-// Existing comment: 204 deletes comment
-// Non-integer Comment id: 404 Generic Not Found
-// Non-existing Comment: 404 Comment Not Found
-router.delete(
-  '/comments/:id(\\d+)',
+router.delete('/comments/:id(\\d+)',
   asyncHandler(checkForComment),
   asyncHandler(async (req, res) => {
     await req.comment.destroy();
     res.status(204).end();
   })
 );
-
-
 
 module.exports = router;

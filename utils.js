@@ -1,13 +1,12 @@
 const { validationResult } = require("express-validator")
-const { User, Story, Comment, Like } = require("./db/models")
-
+const { User, Story, Comment, Like, Topic, Tag } = require("./db/models");
+const topic = require("./db/models/topic");
 
 function asyncHandler(handler) {
   return (req, res, next) => {
     return handler(req, res, next).catch(next)
   }
 }
-
 
 function handleValidationErrors(req, res, next) {
   const validationErrors = validationResult(req);
@@ -21,7 +20,6 @@ function handleValidationErrors(req, res, next) {
   } else next();
 }
 
-
 function contentNotFound(id, contentType) {
   const err = new Error(`${contentType} id ${id} could not be found.`);
   err.title = `404 ${contentType} not found`;
@@ -34,6 +32,7 @@ async function deleteForStory(id, Model) {
   console.log(records)
   records.forEach(async record => await record.destroy())
 }
+
 
 async function checkForStory(req, res, next) {
   const story = await Story.findByPk(req.params.id)
@@ -59,21 +58,40 @@ async function checkForComment(req, res, next) {
     next()
   }
 }
-function checkForContent(res, content) {
-  res.json(content)
+
+// Provide a 'createdAt' value and receive a string in form 'Jan 01 2020'
+function getDate(createdAt) {
+  let parsedDate = new Date(createdAt)
+  return parsedDate.toDateString().slice(4)
 }
+
+// Provide list of objects with 'createdAt' property to update to form 'Jan 01 2020'.
+function getDates(content) {
+  return content.map(item => {
+    item.createdAt = getDate(item.createdAt)
+    return item
+  })
+}
+const userAttributes = ["id", "firstName", "lastName", "bio"]
+const storyAttributes = ["id", "title", "subtitle", "createdAt", "authorId"]
 
 const storyInclude = [{
   model: User,
   as: "Author",
-  attributes: ["id", "firstName", "lastName"]
+  attributes: userAttributes
 }, {
   model: Comment,
   attributes: ["id"],
 }, {
   model: Like,
   attributes: ["id"]
+}, {
+  model: Tag,
+  attributes: ["topicId"],
+  include: { model: Topic, attributes: ["id", "topic"] }
 }]
+
+
 
 module.exports = {
   asyncHandler,
@@ -83,6 +101,8 @@ module.exports = {
   checkForStory,
   checkForUser,
   checkForComment,
-  checkForContent,
-  storyInclude
+  storyInclude,
+  userAttributes,
+  storyAttributes,
+  getDate, getDates,
 }

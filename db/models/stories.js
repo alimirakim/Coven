@@ -3,14 +3,17 @@ module.exports = (sequelize, DataTypes) => {
   const Story = sequelize.define('Story', {
     title: {
       allowNull: false,
-      type: DataTypes.STRING(255)
+      type: DataTypes.STRING(200)
+    },
+    subtitle: {
+      type: DataTypes.STRING(200)
     },
     body: {
       allowNull: false,
       type: DataTypes.TEXT,
     },
     authorId: {
-      allowNull:false,
+      allowNull: false,
       type: DataTypes.INTEGER
     },
     createdAt: {
@@ -24,11 +27,12 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: new Date()
     }
   }, {});
-  Story.associate = function(models) {
-    Story.belongsTo(models.User, { as: "Author", foreignKey: "authorId" });
-    Story.hasMany(models.Bookmark, { foreignKey: "storyId" });
-    Story.hasMany(models.Like, { foreignKey: "storyId" });
-    Story.hasMany(models.Comment, { foreignKey: "storyId" });
+  Story.associate = function (models) {
+    Story.belongsTo(models.User, { as: "Author", foreignKey: "authorId" })
+    Story.hasMany(models.Bookmark, { foreignKey: "storyId" })
+    Story.hasMany(models.Like, { foreignKey: "storyId" })
+    Story.hasMany(models.Comment, { foreignKey: "storyId" })
+    Story.hasMany(models.Tag, { foreignKey: "storyId" })
   };
   return Story;
 };

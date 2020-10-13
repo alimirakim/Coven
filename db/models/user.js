@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(40),
       allowNull: false,
     },
+    bio: {
+      type: DataTypes.STRING(200)
+    },
     email: {
       type: DataTypes.STRING(80),
       allowNull: false,
@@ -22,14 +25,15 @@ module.exports = (sequelize, DataTypes) => {
     },
   }, {});
   User.associate = function (models) {
-    User.hasMany(models.Story, { as: "Author", foreignKey: 'authorId' }),
-      User.hasMany(models.Comment, { foreignKey: 'userId' }),
-      User.hasMany(models.Like, { foreignKey: 'userId' }),
-      User.hasMany(models.Follow, { as: "Follower", foreignKey: 'followerId' }),
-      User.hasMany(models.Follow, { as: "Following", foreignKey: 'followingId' }),
-      User.hasMany(models.Bookmark, { foreignKey: 'userId' })
+    User.hasMany(models.Story, { as: "Author", foreignKey: 'authorId' })
+    User.hasMany(models.Comment, { foreignKey: 'userId' })
+    User.hasMany(models.Like, { foreignKey: 'userId' })
+    User.hasMany(models.Follow, { as: "Follower", foreignKey: 'followerId' })
+    User.hasMany(models.Follow, { as: "Following", foreignKey: 'followingId' })
+    User.hasMany(models.Bookmark, { foreignKey: 'userId' })
+    User.hasMany(models.Watch, { foreignKey: 'userId'})
   };
-  User.prototype.validatePassword = function(password) {
+  User.prototype.validatePassword = function (password) {
     return bcrypt.compareSync(password, this.hashedPassword.toString());
   }
   return User;

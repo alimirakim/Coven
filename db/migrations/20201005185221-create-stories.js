@@ -10,10 +10,13 @@ module.exports = {
       },
       title: {
         allowNull: false,
-        type: Sequelize.STRING(255)
+        type: Sequelize.STRING(200)
+      },
+      subtitle: {
+        type: Sequelize.STRING(200)
       },
       body: {
-        allowNull:false,
+        allowNull: false,
         type: Sequelize.TEXT
       },
       authorId: {

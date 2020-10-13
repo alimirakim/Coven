@@ -13,17 +13,15 @@ const { User, Story, Comment, Like, Bookmark, Follow } = require("../../db/model
 const usersRouter = express.Router()
 
 const nameValidators = [
-  // MIRA Tested
   check("firstName")
     .exists({ checkFalsy: true })
     .withMessage("Please give us a first name.")
     .isLength({ min: 1, max: 40 })
     .withMessage("A first name must be between 1 to 40 characters in length."),
-  // MIRA Tested
   check("lastName")
     .exists({ checkFalsy: true })
     .withMessage("Please give us a last name.")
-    .isLength({ min: 0, max: 40 })
+    .isLength({ max: 40 })
     .withMessage("A last name can't be longer than 40 characters in length."),
 ]
 
@@ -35,33 +33,30 @@ const emailValidator = [
     .withMessage("Please give us a valid email address.")
     .isLength({ max: 80 })
     .withMessage("An email can't be longer than 80 characters in length.")
-    .custom(async (val, {req}) => {
-      let emailExists = await User.findOne({where: {email: val}})
-      if(emailExists){
+    .custom(async (val, { req }) => {
+      let emailExists = await User.findOne({ where: { email: val } })
+      if (emailExists) {
         throw new Error("Email is in use")
       }
     })
 ]
 const passwordValidator = [
-  // MIRA Tested
   check("password")
     .exists({ checkFalsy: true })
     .withMessage("Please give us a password.")
     .isLength({ min: 10, max: 20 })
     .withMessage("A password must be between 10 to 20 characters in length.")
-    .custom((val, {req}) => {
-      if(val !== req.body.confirmPassword) {
+    .custom((val, { req }) => {
+      if (val !== req.body.confirmPassword) {
         throw new Error('Passwords do not match')
-      }else{
+      } else {
         return val;
       }
-    })
+    }
+    )
 ]
 
 // Get User by id
-// Existing user: gets User, including sensitive data
-// Non-existing user: 404 User not found
-// Non-integer user: 404 Generic Not Found
 usersRouter.get("/:id(\\d+)",
   asyncHandler(checkForUser),
   asyncHandler(async (req, res) => {
@@ -70,8 +65,6 @@ usersRouter.get("/:id(\\d+)",
 )
 
 // Create a new User.
-// Valid body: 201 Creates user
-// No body: 400 Bad Request, error messages 'needs first name, valid email, etc.'
 usersRouter.post("/",
   nameValidators,
   emailValidator,
@@ -81,7 +74,7 @@ usersRouter.post("/",
     const { firstName, lastName, email, password } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)
     const newUser = await User.create({
-      firstName, lastName, email, hashedPassword
+      firstName, lastName, email, hashedPassword, bio: ""
     })
     const token = makeUserToken(newUser) // TODO Implement auth AFTER routes.
     res.status(201).json({ token, newUser })
@@ -106,18 +99,14 @@ usersRouter.post("/token",
 )
 
 // Edit User data by id.
-// Existing user, valid body: Updates user information, returns user with sensitive data
-// Existing user, No body: 400 Bad Request, error messages 'need a name, last name, email...'
-// Non-existing user: 404 User Not Found
-// Non-integer user id: 500 Server Error, 'invalid input syntax'
 usersRouter.patch("/:id(\\d+)",
   asyncHandler(checkForUser),
   nameValidators,
   emailValidator,
   handleValidationErrors,
   asyncHandler(async (req, res) => {
-    const { firstName, lastName, email } = req.body
-    await req.user.update({ firstName, lastName, email })
+    const { firstName, lastName, bio, email } = req.body
+    await req.user.update({ firstName, lastName, bio, email })
     res.json(req.user)
   })
 )
@@ -125,17 +114,26 @@ usersRouter.patch("/:id(\\d+)",
 // TODO MIRA How to handle changing passwords.
 
 // Delete User by id
-// Existing user, no dependencies: 204
-// Existing user, dependendies: 500 Server Error, 'update or delete violates constraint'
-// Non-existing user: 404 User Not Found
-// Non-integer user id: 404 Generic not found
+// TODO Test this soft delete idea.
+// Existing user, dependencies: 500 Server Error, 'update or delete violates constraint'
 usersRouter.delete("/:id(\\d+)",
   asyncHandler(checkForUser),
   asyncHandler(async (req, res) => {
-    await req.user.destroy()
-    res.status(204).end()
+    try {
+      await req.user.destroy()
+      res.status(204).end()
+    } catch (err) {
+      req.user.firstName = "(Deleted)"
+      req.user.lastName = ""
+      req.user.bio = ""
+      req.user.email = "deleted@deleted.com"
+      // req.password = 
+      await req.user.save()
+      res.status(204).end()
+    }
   })
 )
+
 
 
 module.exports = usersRouter
