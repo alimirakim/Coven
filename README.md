@@ -1,8 +1,7 @@
 
 ## Description
-> "As a reader I want to read articles and follow authors and topics so that I can get more information on topics that I am interested in."
+> A platform for young witches to gather and share their wealth of knowledge with each other in polished yet minimal and modernized presentation to build an empowering community.
 
-> "As an author I want to write articles and tutorials about what I know so that I can get exposure and share my great ideas, knowledge, and interests with the world."
 
 ## MVP
 The [MVP](https://github.com/tamagrijr/mediumClone/blob/master/Documentation/MVP.md) is the minimum we will accept as a group

@@ -1,21 +1,16 @@
 
-html, body {
-  margin: 0;
-  height: 100%;
-}
 body {
   margin: 0;
+  background-color: #222;
 }
+
 * {
   font-family: 'Calibri', 'Fira Sans', sans-serif;
   box-sizing: border-box;
-  color: #333;
+  color: whitesmoke;
   /* outline: 1px dashed red; */
 }
-body {
-  background-color: #F4FAFF;
-  margin: 0;
-}
+
 .hidden {
 	display: none;
 }
@@ -24,7 +19,7 @@ a {
   text-decoration: none;
 }
 a:hover {
-  color: rgb(4, 150, 255);
+  color: gold;
 }
 button {
   cursor: pointer;
@@ -84,7 +79,7 @@ span.btnLike > .iconLabel {
 }
 .btnLike:hover,
 .btnComment:hover {
-  color: #0496FF;
+  color: gold;
 }
 .likeIcon {
   background-image: url("/assets/icons/heart_gray.svg");
@@ -124,14 +119,14 @@ span.btnLike > .iconLabel {
 .btnIconic {
   margin: 0 0.5em;
   border-radius: 5px;
-  border: 1px solid rgb(4, 150, 255);
+  border: 1px solid lemonchiffon;
   padding: 0.2em 0.5em;
-  color: rgb(4, 150, 255);
-  background-color: white;
+  color: lemonchiffon;
+  background-color: transparent;
 }
 .btnIconic:hover {
-  color: white;
-  background-color: rgb(4, 150, 255);
+  border-color: gold;
+  color:gold;
 }
 
 /* For mixin authorBlurb */
@@ -143,7 +138,7 @@ span.btnLike > .iconLabel {
   font-size: 0.8
 }
 .authorName {
-  color: #666;
+  color: lemonchiffon;
   font-size: 0.8rem;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   font-style: italic;
@@ -163,7 +158,8 @@ span.btnLike > .iconLabel {
   width: 45%;
   border-radius: 5px;
   padding: 1rem 0;
-	box-shadow: 0px 0px 6px 0px rgba(150,150,150,0.5);
+  background-color: #353345;
+	/* box-shadow: 0px 0px 6px 0px rgba(150,150,150,0.5); */
 }
 .cardTitle {
   margin: 1.5rem 1rem 0;
@@ -172,7 +168,7 @@ span.btnLike > .iconLabel {
 }
 .cardCreatedDate {
   margin: 0;
-  color: #888;
+  color: #ba8;
   font-size: 0.7rem;
   font-style: italic;
 }

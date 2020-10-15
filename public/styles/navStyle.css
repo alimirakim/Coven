@@ -8,7 +8,7 @@
 }
 .logo a {
   text-decoration: none;
-  color: #333333;
+  color: lemonchiffon;
   font-family: Cambria, Gabriola, serif;
 }
 .greetingTag {
@@ -16,7 +16,6 @@
   padding: 0 1rem;
   margin: 0;
 	border-left: 1px solid #a2a2a2;
-  color: #333333;
   font-family: Cambria, Gabriola, serif;
 }
 .main-nav, .dropdown-menu {
@@ -68,40 +67,11 @@
 	position: sticky;
   top: 0;
   z-index: 1;
-  box-shadow: 0px 0px 14px 0px rgba(150,150,150,0.5);
-  background-color: #F4FAFF;
+  box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.5);
+  background-color: #453355;;
   opacity: 0.85;
 }
 
-/* .main-nav a {
-.logo {
-	margin: 0;
-	font-size: 1.45em;
-}
-.logo a,
-.main-nav a.button {
-	padding: 10px 15px;
-	text-transform: uppercase;
-	text-align: center;
-	display: block;
-}
-.main-nav a {
-    color: #34495e;
-}
-.main-nav a:hover {
-	color: #718daa;
-}
-.topNavStyles {
-  padding-top: .5em;
-	padding-bottom: .5em;
-	display: flex;
-	border-radius: 5px;
-}
-.topnav a.button:hover {
-	color: #c9c3c3;
-	text-decoration: none;
-	/* background-color: #121212;
-}*/
 .dropdown-menu {
   z-index: 10;
   display: none;
@@ -109,8 +79,9 @@
   padding: 0.5rem 1rem;
   font-family: Calibri;
   font-size: 0.8rem;
-  color: #333;
-	background-color: #F4FAFF;
+  color: whitesmoke;
+  background-color: #222;
+  opacity: 0.8;
 	box-shadow: 0px 14px 14px -6px rgba(150,150,150,0.6);
 }
 .dropdown-menu li {
@@ -118,13 +89,13 @@
   text-align: center;
 }
 a:hover {
-  color: rgba(4, 150, 255, .8)
+  color: gold;
 }
 
 .cardShadow {
   /* border-bottom: 1px solid rgba(150,150,150,0.3); */
 	box-shadow: 0px 0px 14px 0px rgba(150,150,150,0.5);
-  background-color:#F4FAFF;
+  background-color: #453355;;
   opacity: 0.85;
 }
 
