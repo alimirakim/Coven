@@ -1,5 +1,5 @@
 {
-  "name": "mediumClone",
+  "name": "Coven",
   "version": "1.0.0",
   "description": "> \"As a reader I want to read articles and follow authors and topics so that I can get more information on topics that I am interested in.\"",
   "main": "index.js",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tamagrijr/mediumClone.git"
+    "url": "git+https://github.com/alimirakim/Coven.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tamagrijr/mediumClone/issues"
+    "url": "https://github.com/alimirakim/Coven/issues"
   },
-  "homepage": "https://github.com/tamagrijr/mediumClone#readme",
+  "homepage": "https://github.com/alimirakim/Coven#readme",
   "dependencies": {
     "bcrypt": "^5.0.0",
     "bcryptjs": "^2.4.3",

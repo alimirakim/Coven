@@ -4,42 +4,70 @@ html(lang='en')
   head
     meta(charset='utf-8')
     title= title
+    meta(name=`viewport` content=`width=device-width, initial-scale=1`)
+    
+    link(rel=`stylesheet` type=`text/css` href=`/styles/smacss/normalize.css`)
+    link(rel=`stylesheet` type=`text/css` href=`/styles/smacss/base.css`)
+    link(rel=`stylesheet` type=`text/css` href=`/styles/smacss/layout.css`)
+    link(rel=`stylesheet` type=`text/css` href=`/styles/smacss/state.css`)
+    link(rel=`stylesheet` type=`text/css` href=`/styles/smacss/enf_enter-form.css`)
     //- link(rel='stylesheet' type='text/css' href='/styles/globalStyle.css')
     //- link(rel='stylesheet' type='text/css' href='/styles/navStyle.css')
     //- link(rel='stylesheet' type='text/css' href='/styles/footer.css')
     script(defer type="module" src="/js/layout.js")
   body#top
-    header.navHeader.navHeaderStyles
-      nav.topnav.navbar-default.topNavStyles
-        .leftNav
-          h1.logo: a(href="/") Coven
-          p.greetingTag
-        ul.main-nav
-          li.demoLogIn.hidden: a.button.demo#demoLink Demo Login
-          li.signInButton: a.button#signInButton.signInBanner Login
-          li.signUpButton: a.button#signUpButton.signUpBanner Sign up
-          li.publishStory.hidden: a.button#publishStoryButton Publish
-          //- p.greetingTag
-          li.dropdown
+  
+    header#header
+      //- nav.topnav.navbar-default.topNavStyles
+        //- .leftNav
+      a(href="/") Coven
+      //- p.greetingTag
+      button.anon.login Login
+      button.anon.signup Join
+      
+      nav.user
+        //- button.drop: img(src=`/assets/icons/userid.jpg`).avi
+        ul.drop
+          li: a(href=`/users/`) Profile
+          li: a(href=`/write`) Write
+          li: a(href=`/users/id/bookmarks`) Bookmarks
+          li: button.logout Logout
+        //- li.demoLogIn.hidden: a.button.demo#demoLink Demo Login
+        //- li.signInButton: a.button#signInButton.signInBanner Login
+        //- li.signUpButton: a.button#signUpButton.signUpBanner Sign up
+        //- nav#nav
+        //-   ul
 
-            .dropdown-container.button.dropdown-toggle
-              a.button.dropdown-toggle: .navAv
-                img(src=`/assets/icons/avatar_blue.svg`)
-              ul#dropdown-menu.dropdown-menu
-                li: a.button#profileButton Profile
-                li: a.button#createStoryButton Write
-                li: a.button#logoutButton Log out
+            //- li.publishStory.hidden: a.button#publishStoryButton Publish
+            //- li.dropdown
 
+            //- .dropdown-container.button.dropdown-toggle
+            //-   a.button.dropdown-toggle: .navAv
+            //-     img(src=`/assets/icons/avatar_blue.svg`)
+            //-   ul#dropdown-menu.dropdown-menu
+            //-     li: a.button#profileButton Profile
+            //-     li: a.button#createStoryButton Write
+            //-     li: a.button#logoutButton Log out
+
+    block splash
     block content
 
-    footer.mainFooter.splashFooter.hidden
-      h2.logo: a(href="/").footerLogo C
-      p The place to get the latest Yum. We can put credits and stuff here for icons, pictures, ourselves, and what have yous.
+    //- footer.mainFooter.splashFooter.hidden
+    footer#footer
+      //- h2.logo: a(href="/").footerLogo C
+      a(href="/") C
+      nav.ftr-nav
+        ul
+          li: a(href="#top") Top
+          li: a(href="/contact") Credit
+          li: button.anon.signup Join
+          li: button.anon.login Login
+          //- li: a(href="#top").footerLink Top
+          //- li: a(href="/contact").footerLink Credit
+          //- li: a(href="/").footerLink.signUpBanner Join
+          //- li: a.footerLink.signInBanner Login
+      address
+        a(href="https://github.com/alimirakim") Visit Mira's GitHub
+        a(href="email:alicia.mira.kim@gmail.com") Contact Mira
+        
       small © 2020 Warren Tamagri, Cinthia Spence, Clayton Reinhardt, Mira Kim
-
-      nav: ul.footerNavList
-        li: a(href="#top").footerLink Top
-        li: a(href="#top").footerLink About
-        li: a(href="#top").footerLink Contact Us
-        li: a(href="/").footerLink.signUpBanner Get Started
-        li: a.footerLink.signInBanner Sign In

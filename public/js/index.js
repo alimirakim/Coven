@@ -201,14 +201,10 @@ let b15 = document.querySelector('.bearButton15')
 const bList = [b1, b2, b3, b4, b5, b6, b7, b8, b9, b10, b11, b12, b13, b14, b15]
 
 window.addEventListener('DOMContentLoaded', e => {
-  console.log("HBDRAFD L;FKJDSA")
   b = document.querySelector('.gridOfButtons')
-  console.log(b)
 
   b.addEventListener('click', ev => {
-    console.log("clioock")
     if (ev.target.classList.contains('topicButtonContainer'))
-      console.log("hwloo")
     ev.target.classList.toggle('clickedBearButton');
     ev.target.classList.toggle('bearButtonContainerHover');
   })

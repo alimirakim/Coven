@@ -1,3 +1,4 @@
+const log = console.log
 const express = require("express")
 const path = require("path");
 const cookieParser = require("cookie-parser")
@@ -13,15 +14,17 @@ const storiesRouter = require("./routes/backend-routes/stories")
 const commentsRouter = require("./routes/backend-routes/comments")
 const topicsRouter = require("./routes/backend-routes/topics")
 
+log("\nSTARTING APP")
 const app = express()
 app.use(express.json())
 app.set("view engine", "pug")
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
-
-// Dev dependencies
+app.use(express.static(path.join(__dirname, "public")));
 const morgan = require("morgan")
 app.use(morgan("dev"))
+
+log("\nAPP SET UP")
 
 // Backend Routes
 app.use(frontEndRouter)
@@ -33,7 +36,9 @@ app.use("/api", bookmarksRouter)
 app.use("/api", likesRouter)
 app.use("/api", topicsRouter)
 
-app.use(express.static(path.join(__dirname, "public")));
+log("\nROUTES SET UP")
+
+
 
 // 404 Catch unhandled requests
 app.use((req, res, next) => {

@@ -1,0 +1,76 @@
+extends layout
+include includes/utils.pug
+
+block enter
+  article.l-enter
+    h2 Join Coven 
+    //-formTitle
+    button.l-exit(type="button") X
+    section.err
+
+    form(id="entry-form" type="post" action="/signup").enf
+      input(name="_csrf" type="hidden" value=csrfToken required)
+      ul
+        if isSignupForm
+          li: +makeInput("First Name", "firstName", "text", firstName)
+          li: +makeInput("Last Name", "lastName", "text", lastName)
+          li: +makeInput("e-mail", "email", "email", email)
+          li: +makeInput("Password", "password", "password", password)
+          li: +makeInput("Verify Password", "verifyPassword", "password", verifyPassword)
+        else
+          li: +makeInput("e-mail", "email", "email", email)
+          li: +makeInput("Password", "password", "password", password)
+      button.enf-btn(disabled) Enter
+
+    aside
+      small New to Coven?<br>
+        a(href="/signup") Join here.
+      //- altForm
+        //- altLink
+
+        //- label First Name
+        //-   input(name="firstName" type="text" placeholder="First Name" value=firstName required autofocus)
+        //- label Last Name
+        //-   input(name="lastName" type="text" placeholder="Last Name" value=lastName required)
+        //- label e-mail
+        //-   input(name="email" type="email" placeholder="e-mail" value=email required)
+        //- label Password
+        //-   input(name="password" type="password" placeholder="Password" required)
+        //- label Verify Password
+        //-   input(name="verifyPassword" type="password" placeholder="Verify Password" required)
+
+
+        //- label e-mail
+        //-   input(name="email" type="email" value=email required autofocus)
+        //- label Password
+        //-   input(name="password" type="password" required)
+
+  //- .form-container
+    .logHeader
+      a.button.closeForm X
+    h2.sign-up-h2 Sign Up
+    .errors-container
+    form(class="signUpForm").modalForm
+      input(name='firstName' class='signUpInput' type='text' placeholder='First Name' required).modalInput
+      input(name='lastName' class='signUpInput' type='text' placeholder='Last Name' required).modalInput
+      input(name='email' class='signUpInput' type='email' placeholder='Enter Email' required).modalInput
+      input(name='password' class='signUpInput' type='password' placeholder='Enter Password' required).modalInput
+      input(name='confirmPassword' class='signUpInput' type='password' placeholder='Confirm Password' required).modalInput
+      button.btn.btn-primary(type='submit').modalInput Sign Up
+    p Already have an account?
+      a.swapToLogIn  Log in here.
+    //- button.demo.btn.btn-primary(type='submit') Demo Login
+
+  //- .form-container
+  //-   .logHeader
+  //-     a.button.closeForm X
+  //-   h2.log-in-h2 Log In
+  //-   .errors-container
+  //-   form(class="logInForm").modalForm
+  //-     input(type="hidden" name="_csrf" value=csrfToken)
+  //-     input(name='email' class='emailLogIn' type='email' placeholder='Enter Email' required).modalInput
+  //-     input(name='password' class='passwordLogIn' type='password' placeholder='Enter Password' required).modalInput
+  //-     button.btn.btn-primary(type='submit').modalInput Log In
+  //-   //- button.demo.btn.btn-primary(type='submit') Demo Login
+  //-   p Don't have an account?
+  //-     a.swapToSignUp  Sign up here.

@@ -1,52 +1,23 @@
+extends layout
 
-block.splashBody
-  .headlineOne
-    h1.splashSubHeadGroup.splashPageText Show everyone <br> what matters to you.
-    h2.headlineOneTag.splashPageText Explore new interests and bring discussion to the table.
-    .gridOfButtons
+block splash
+  section.l-hook1
+    h1 Welcome to Coven.
+    h2 A mystic community designed for the modern witch. 
+    
+    .hk1-topics
       each topic in topics
-        .topicContainer(style=`grid-area: button${topic.id}`)
-          .topicButtonContainer.topicButtonContainerHover
-            img(src=`/assets/topics/${topic.id}.svg` class="topicButton"  width=30 height=30 viewbox="0 0 30 30" fill="none")
-            .topicButton=  topic.topic
-
-    .signUpBanner
-      button.signUpBanner#signUpBanner.splashPageText Get Started
+        button= topic.topic
+    
+    button.join Join Coven
+  hr
+  p [Slideshow of quotes, profiles, or subject matter here]
 
   .borderLine
 
-  .headlineTwo
-    .headlineTextContainer
-      h1.splashHead1.splashPageText Join our Coven
-      h2.splashHead3.splashPageText
-        |Tell us all about why you love bears
-        br
-        |just as much as we do!
-      img(src="/icons/Bear_of_California_glow_2.svg" class="californiaBear")
-
-  .borderLine
-
-  .slideShowContainer
-    .slideShowImgContainer
-      .slideShowText.slide1
-        h2.splashText.splashPageText Show us what you've got,
-        h2.splashText.splashPageText  and bring your stories to life!
-      img(src=slideshow.img1).slideImg.slide2.hidden
-      img(src=slideshow.img2).slideImg.slide3.hidden
-      img(src=slideshow.img3).slideImg.slide4.hidden
-      img(src=slideshow.img4).slideImg4.slide5.hidden
-    .slideShowNavigation
-      .slideShowNavigationButton1.slideShowButton.currentSlideButton
-      .slideShowNavigationButton2.slideShowButton
-      .slideShowNavigationButton3.slideShowButton
-      .slideShowNavigationButton4.slideShowButton
-      .slideShowNavigationButton5.slideShowButton
-
-  .borderLine
-
-  .headlineThree
-    .headlineTextContainer
-      h1.splashHead.splashPageText Welcome to Coven
-      h2.splashText.splashPageText Become a part of our community!<br>Join an ever growing community of at least four people!
-      .signUpBanner
-      button.signUpBanner#signUpBanner.splashPageText Get Started
+  h2 Coven, a Modern Community for Today's Witch
+  p No matter your specialty, discover in Coven the latest and greatest through high-quality articles written by other members of our sisterhood, or enchant us with your own wicked pools of knowledge.
+  
+  button.join Create Account
+  small Already a member?
+    button.login Login

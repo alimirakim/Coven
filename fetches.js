@@ -62,7 +62,6 @@ async function getBookmarkedStoriesForUser(id) {
     bookmark.Story.createdAt = getDate(bookmark.Story.createdAt)
     return bookmark
   })
-  console.log("bookmarks\n", bookmarks)
   return bookmarks
 }
 

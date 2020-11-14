@@ -21,12 +21,18 @@ const {
 const csrfProtection = csrf({ cookie: true });
 const frontEndRouter = express.Router();
 
-
 // Individual Story page.
 frontEndRouter.get("/stories/:id(\\d+)", async (req, res) => {
   const story = await getStory(req.params.id)
   res.render('story-layout', { story, title: story.title, api });
 })
+
+// function getCurrentUser() {
+
+// }
+
+
+
 
 
 // Home page. Splash + Feed
@@ -55,7 +61,7 @@ frontEndRouter.get("/", asyncHandler(async (req, res) => {
       img5: `assets/slideshow/5.jpg`,
     }
 
-    res.render('index', {
+    res.render('splash', {
       title: "Coven",
       stories,
       topics,
@@ -70,12 +76,20 @@ frontEndRouter.get("/", asyncHandler(async (req, res) => {
 }))
 
 //sign up form
-frontEndRouter.get("/sign-up", csrfProtection, (req, res) => {
-  res.render('sign-up', { csrfToken: req.csrfToken(), api });
+frontEndRouter.get("/signup", csrfProtection, (req, res) => {
+  res.render('entry-form', {
+    csrfToken: req.csrfToken(),
+    isSignupForm: true,
+    api,
+  });
 })
 //log-in form
-frontEndRouter.get("/log-in", csrfProtection, (req, res) => {
-  res.render('log-in', { csrfToken: req.csrfToken(), api });
+frontEndRouter.get("/login", csrfProtection, (req, res) => {
+  res.render('entry-form', {
+    csrfToken: req.csrfToken(),
+    isSignupForm: false,
+    api,
+  });
 })
 //user profile
 frontEndRouter.get("/users/:id(\\d+)", csrfProtection,

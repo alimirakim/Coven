@@ -1,3 +1,10 @@
+mixin makeInput(title, nameAttrib, typeAttrib, valueAttrib)
+  label= title
+    br
+    input.enf-input(name=nameAttrib type=typeAttrib placeholder=title value=valueAttrib required)
+
+
+
 mixin navLink(route, text)
   a(href=route)= text
 

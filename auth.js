@@ -6,17 +6,14 @@ const bearerToken = require('express-bearer-token');
 const { secret, expiresIn } = jwtConfig;
 
 const makeUserToken = (user) => {
-  const userDataForToken = {
+  const data = {
     id: user.id,
     email: user.email,
   };
-  const token = jwt.sign(
-    { data: userDataForToken },
-    secret,
-    { expiresIn: parseInt(expiresIn, 10) },
-  );
+  const token = jwt.sign(data, secret,{ expiresIn: parseInt(expiresIn, 10) })
   return token;
 };
+
 
 const restoreUser = (req, res, next) => {
   const { token } = req
@@ -30,14 +27,11 @@ const restoreUser = (req, res, next) => {
       return next(err)
     }
     const { id } = jwtPayload.data
-    console.log(jwtPayload)
-
     try {
       req.user = await User.findByPk(id)
     } catch (err) {
       return next(err)
     }
-
     if (!req.user) {
       return res.set("WWW-Authenticate", "Bearer").status(401).end();
     }
