@@ -1,3 +1,5 @@
+include includes/signup-form.pug
+include includes/login-form.pug
 
 doctype html
 html(lang='en')
@@ -10,11 +12,13 @@ html(lang='en')
     link(rel=`stylesheet` type=`text/css` href=`/styles/smacss/base.css`)
     link(rel=`stylesheet` type=`text/css` href=`/styles/smacss/layout.css`)
     link(rel=`stylesheet` type=`text/css` href=`/styles/smacss/state.css`)
+    link(rel=`stylesheet` type=`text/css` href=`/styles/smacss/theme.css`)
     link(rel=`stylesheet` type=`text/css` href=`/styles/smacss/enf_enter-form.css`)
     //- link(rel='stylesheet' type='text/css' href='/styles/globalStyle.css')
     //- link(rel='stylesheet' type='text/css' href='/styles/navStyle.css')
     //- link(rel='stylesheet' type='text/css' href='/styles/footer.css')
-    script(defer type="module" src="/js/layout.js")
+    //- script(defer type="module" src="/js/layout.js")
+    script(defer type="module" src="/js/forms.js")
   body#top
   
     header#header
@@ -22,8 +26,9 @@ html(lang='en')
         //- .leftNav
       a(href="/") Coven
       //- p.greetingTag
-      button.anon.login Login
-      button.anon.signup Join
+      div.l-twins.anon
+        button.anon.log-btn Login
+        button.anon.sup-btn Join
       
       nav.user
         //- button.drop: img(src=`/assets/icons/userid.jpg`).avi
@@ -48,7 +53,9 @@ html(lang='en')
             //-     li: a.button#profileButton Profile
             //-     li: a.button#createStoryButton Write
             //-     li: a.button#logoutButton Log out
-
+    block signup
+    block login
+    
     block splash
     block content
 
@@ -60,8 +67,8 @@ html(lang='en')
         ul
           li: a(href="#top") Top
           li: a(href="/contact") Credit
-          li: button.anon.signup Join
-          li: button.anon.login Login
+          li: button.anon.sup-btn Join
+          li: button.anon.log-btn Login
           //- li: a(href="#top").footerLink Top
           //- li: a(href="/contact").footerLink Credit
           //- li: a(href="/").footerLink.signUpBanner Join

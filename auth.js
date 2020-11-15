@@ -16,8 +16,9 @@ const makeUserToken = (user) => {
 
 
 const restoreUser = (req, res, next) => {
+  console.log("\nAUTH AUTH")
   const { token } = req
-
+  console.log("TOKEN", token)
   if (!token) {
     return res.set("WWW-Authenticate", "Bearer").status(401).end()
   }
@@ -26,7 +27,8 @@ const restoreUser = (req, res, next) => {
       err.status = 401
       return next(err)
     }
-    const { id } = jwtPayload.data
+    console.log("\nPAYLOAD", jwtPayload)
+    const { id } = jwtPayload
     try {
       req.user = await User.findByPk(id)
     } catch (err) {

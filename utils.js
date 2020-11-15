@@ -7,6 +7,18 @@ function asyncHandler(handler) {
   }
 }
 
+
+function getCookies(req) {
+  const rawCookies = req.headers.cookie.split("; ");
+  const bakedCookies = {}
+  rawCookies.forEach(cookie => {
+    const bakedCookie = cookie.split("=")
+    bakedCookies[bakedCookie[0]] = bakedCookie[1]
+  })
+  return bakedCookies
+}
+
+
 function handleValidationErrors(req, res, next) {
   const validationErrors = validationResult(req);
   if (!validationErrors.isEmpty()) {
@@ -19,12 +31,14 @@ function handleValidationErrors(req, res, next) {
   } else next();
 }
 
+
 function contentNotFound(id, contentType) {
   const err = new Error(`${contentType} id ${id} could not be found.`);
   err.title = `404 ${contentType} not found`;
   err.status = 404;
   return err;
 }
+
 
 async function deleteForStory(id, Model) {
   const records = await Model.findAll({ where: { storyId: id } })
@@ -41,6 +55,8 @@ async function checkForStory(req, res, next) {
     next()
   }
 }
+
+
 async function checkForUser(req, res, next) {
   const user = await User.findByPk(req.params.id)
   if (!user) next(contentNotFound(req.params.id, "User"))
@@ -49,6 +65,8 @@ async function checkForUser(req, res, next) {
     next()
   }
 }
+
+
 async function checkForComment(req, res, next) {
   const comment = await Comment.findByPk(req.params.id)
   if (!comment) next(contentNotFound(req.params.id, "Comment"))
@@ -58,11 +76,14 @@ async function checkForComment(req, res, next) {
   }
 }
 
+
 // Provide a 'createdAt' value and receive a string in form 'Jan 01 2020'
 function getDate(createdAt) {
   let parsedDate = new Date(createdAt)
   return parsedDate.toDateString().slice(4)
 }
+
+
 // Provide list of objects with 'createdAt' property to update to form 'Jan 01 2020'.
 function getDates(content) {
   return content.map(item => {
@@ -70,6 +91,7 @@ function getDates(content) {
     return item
   })
 }
+
 
 function rankStories(stories) {
   let count = 1
@@ -81,8 +103,10 @@ function rankStories(stories) {
   })
 }
 
+
 const userAttributes = ["id", "firstName", "lastName", "bio"]
 const storyAttributes = ["id", "title", "subtitle", "createdAt", "authorId"]
+
 
 const storyInclude = [{
   model: User,
@@ -103,6 +127,7 @@ const storyInclude = [{
 
 module.exports = {
   asyncHandler,
+  getCookies,
   handleValidationErrors,
   contentNotFound,
   deleteForStory,

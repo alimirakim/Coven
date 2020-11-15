@@ -16,12 +16,14 @@ const {
 const usersRouter = express.Router()
 
 
+
 // Create a new JWT token for a user on login(?)
 usersRouter.post("/token",
   asyncHandler(async (req, res, next) => {
     const { email, password } = req.body
     const user = await User.findOne({ where: { email } })
     if (!user || !user.validatePassword(password)) {
+      console.log("FAIL")
       const err = new Error("The login failed.")
       err.title = "401 Login Failed"
       err.status = 401
@@ -29,25 +31,28 @@ usersRouter.post("/token",
       return next(err)
     }
     const token = makeUserToken(user)
-    await res.json({ token, user })
+    const maxAge = 720 * 60 * 60
+    res.cookie("COVEN_TOKEN", token, { maxAge })
+    res.cookie("COVEN_ID", user.id, { maxAge })
+    await res.json({ token, id: user.id })
   })
 )
 
-usersRouter.get("/user"),
-  asyncHandler(requireAuth),
+usersRouter.get("/user",
+  requireAuth,
   asyncHandler(async (req, res, next) => {
     const { id } = req.user
     await res.json({ id })
   })
-
+)
 
 // Get User by id
-usersRouter.get("/:id(\\d+)",
-  asyncHandler(checkForUser),
-  asyncHandler(async (req, res) => {
-    res.json(req.user)
-  })
-)
+// usersRouter.get("/:id(\\d+)",
+//   asyncHandler(checkForUser),
+//   asyncHandler(async (req, res) => {
+//     res.json(req.user)
+//   })
+// )
 
 
 // Create a new User.
@@ -59,11 +64,15 @@ usersRouter.post("/",
   asyncHandler(async (req, res) => {
     const { firstName, lastName, email, password } = req.body
     const hashedPassword = await bcrypt.hash(password, 10)
-    const newUser = await User.create({
+    const user = await User.create({
       firstName, lastName, email, hashedPassword, bio: ""
     })
-    const token = makeUserToken(newUser) // TODO Implement auth AFTER routes.
-    res.status(201).json({ token, newUser })
+    const token = makeUserToken(user)
+    delete user.hashedPassword
+    console.log("\ndeleted hash?", user)
+    res.cookie("COVEN_TOKEN", token, { maxAge })
+    res.cookie("COVEN_ID", user.id, { maxAge })
+    res.status(201).json({ token, user })
   })
 )
 

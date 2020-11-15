@@ -14,11 +14,18 @@
   height: 1rem;
 }
 
+
+.l-twins > button {
+  width: 4rem;
+  margin: 0 0.2rem;
+}
+
 /* Enter Forms Layout */
 .l-enter {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: fixed;
   width: 100vw;
   height: 100vh;
   text-align: center;

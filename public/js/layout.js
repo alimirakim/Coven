@@ -1,46 +1,20 @@
-import e from 'express';
+
 import { loggedIn, handleErrors } from './utils.js';
-const querySelector = document.querySelector
-const querySelectorAll = document.querySelectorAll
-const getElementById = document.getElementById
+const query = document.querySelector.bind(document)
+const queryAll = document.querySelectorAll.bind(document)
+const getElement = document.getElementById.bind(document)
+const create = document.createElement.bind(document)
+const createText = document.createTextNode.bind(document)
 
-const dropdownDiv = document.querySelector('#dropdown-menu')
-const dropdownButton = document.querySelector('.dropdown-toggle')
+// const dropdownDiv = document.querySelector('#dropdown-menu')
+// const dropdownButton = document.querySelector('.dropdown-toggle')
 
-const userId = window.localStorage.getItem('MEDIUM_CURRENT_USER_ID')
-const logoutButton = document.querySelector('#logoutButton');
+// const userId = window.localStorage.getItem('MEDIUM_CURRENT_USER_ID')
+// const logoutButton = document.querySelector('#logoutButton');
 
-const profileButton = document.querySelector('#profileButton');
-const writeStoryButton = document.querySelector('#createStoryButton')
+// const profileButton = document.querySelector('#profileButton');
+// const writeStoryButton = document.querySelector('#createStoryButton')
 
-// const IS_HIDDEN = 'is-hidden'
-
-function updateLoginStateElements() {
-  let isLoggedIn = loggedIn()
-  const anonElements = querySelectorAll(".anon")
-  const userElements = querySelectorAll(".user")
-
-  if (isLoggedIn) {
-    for (const el of anonElements) { el.classList.add('is-hidden') }
-    for (const el of userElements) { el.classList.remove('is-hidden') }
-  } else {
-    for (const el of anonElements) { el.classList.remove('is-hidden') }
-    for (const el of userElements) { el.classList.add('is-hidden') }
-  }
-}
-
-updateLoginStateElements()
-
-function toggleHiddenStateOnClick(elementId, buttonId) {
-  el = getElementById(elementId)
-  btn = querySelector(buttonId)
-  btn.addEventListener("click", (ev) => {
-    el.classList.toggle("is-hidden")
-  })
-}
-
-toggleHiddenStateOnClick("entry-form", "enf-btn")
-toggleHiddenStateOnClick("entry-form", "l-exit")
 
 // let logged = loggedIn();
 // if (logged) {
@@ -80,9 +54,7 @@ toggleHiddenStateOnClick("entry-form", "l-exit")
 //         }
 //     })
 //   })
-// const loginEmailInput = document.querySelector('input.emailLogIn')
-// const loginPasswordInput = document.querySelector('input.passwordLogIn')
-// const logInInputs = [ loginEmailInput, loginPasswordInput ];
+
 // logInInputs.forEach(logInput => {
 //   logInput.addEventListener('click', (e) => {
 //     e.target.removeAttribute('placeholder');
@@ -103,20 +75,20 @@ toggleHiddenStateOnClick("entry-form", "l-exit")
 
 // signUpInputs
 
-logoutButton.addEventListener('click', (e) => {
-  localStorage.removeItem('MEDIUM_ACCESS_TOKEN');
-  localStorage.removeItem('MEDIUM_CURRENT_USER_ID');
-  window.location.href = "/";
-})
-profileButton.addEventListener('click', e => {
-  window.location.href = `/users/${userId}`
-})
-writeStoryButton.addEventListener('click', e => {
-  window.location.href = '/create'
-})
-dropdownButton.addEventListener('click', e => {
-  dropdownDiv.classList.toggle('clickedDropdownMenu')
-})
+// logoutButton.addEventListener('click', (e) => {
+//   localStorage.removeItem('MEDIUM_ACCESS_TOKEN');
+//   localStorage.removeItem('MEDIUM_CURRENT_USER_ID');
+//   window.location.href = "/";
+// })
+// profileButton.addEventListener('click', e => {
+//   window.location.href = `/users/${userId}`
+// })
+// writeStoryButton.addEventListener('click', e => {
+//   window.location.href = '/create'
+// })
+// dropdownButton.addEventListener('click', e => {
+//   dropdownDiv.classList.toggle('clickedDropdownMenu')
+// })
 
 // const selectAll = document.querySelectorAll
 // const likeIcons = document.querySelectorAll(".btnLike")
