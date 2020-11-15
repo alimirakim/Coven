@@ -62,8 +62,15 @@ mixin storyCardMini(story)
     +storyIcons(story)
 
 mixin authorBlurb(author)
-  .authorBlurb
+  address
     img(src=`/assets/av/${author.id}.jpg` alt=`${author.firstName} ${author.lastName}`).authorAv
     .authorInfo
       button.btnIconic.btnFollow Follow
       a(href=`/users/${author.id}`).authorName #{author.firstName} #{author.lastName}
+
+mixin storyCell(story)
+  h3: a(href=`/stories/${story.id}`)= story.title
+  time(datetime=`${story.createdAt}`)= story.createdAt
+  img(src=`/assets/stories/${story.id}-1.jpg`)
+  address: +authorBlurb(story.Author)
+  +storyIcons(story)

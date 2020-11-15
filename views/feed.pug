@@ -1,53 +1,69 @@
+extends layout
 include includes/utils
 
-//- script(defer type="module" src="js/feed.js")
-//- link(rel='stylesheet' type='text/css' href='/styles/feed.css')
+block content
+  //- TODO Add the medium's top-level feed block
 
-block feedBlock
+  //- .fst = Feed STories
+  article.fst
+    article.fst-feature
+      h2 Featured
+      //- +storyCell(featuredStory)
+    .l-side
+      //- each story in feedStories
+      //-   article.fst-cell
+      //-     +storyCell(story)
+    
+    
+  .l-left-panel
+    //- .fol = FOLlowed authors
+    //- TODO Show follows that have the latest written stories
+    article.fol
+      h2 Latest From Following
+      //- each follow in follows
+      //-   address.fol-cell
+      //-     img(src=`/assets/users/${follow.id}.jpg` alt=``)
+      //-     h3 #{follow.firstName} #{follow.lastName}
+        
+    //- .top = TOPic watches
+    article.top
+      h2 Topics You Watch
+      //- each watch in watches
+      //-   a.top-tag(href=`/topics/${watch.topicId}`)= watch.Topic.type
+      //- //- TODO Link to new page? Or dynamically show options?
+      //- a.top-add(href=`/topics`) +
+    
+    
+  hr.divider
+
+  article.dst
+    h2 DISCOVER AT COVEN
+    each story in discoveryStories
+      section.dst-cell
+        h3: a(href=`/stories/${story.id}`)
+          span.dst-rank 0#{story.rank} 
+          span.dst-title= story.title
+        address: +authorBlurb(story.Author)
+        //- TODO Ensure datetime value is machine-readable
+        time(datetime=`${story.createdAt}`)= story.createdAt
 
   hr.divider
+
+
+  //- .lst = Latest STories
+  article.fst
+    h2 Our Latest Stories
+    each story in stories
+      article.fst-cell
+        +storyCell(story)
   
-  .trendingStory
-    .trendingHeaderContainer: .trendingSectionHeaderTitle   DISCOVER AT COVEN
+  
+  //- .bst = Bookmarked STories
+  article.bst
+    h2 Your Bookmarks
     if isEnoughBookmarks
-      each bookmark in bookmarkedStories
-        .trendingPostBlock
-          .trendingPostNumberSection 0#{bookmark.rank}
-          h2.trendingPostTitle: a(href=`/stories/${bookmark.Story.id}`)= bookmark.Story.title
-          .trendingPostAuthor: +authorBlurb(bookmark.Story.Author)
-          .trendingPostDate.cardCreatedDate= bookmark.Story.createdAt
+      each story in bookmarkedStories
+        article.bst-cell
+          +storyCell(story)
     else
-      each story in discoveryStories
-        .trendingPostBlock
-          .trendingPostNumberSection 0#{story.rank}
-          h2.trendingPostTitle: a(href=`/stories/${story.id}`)= story.title
-          .trendingPostAuthor: +authorBlurb(story.Author)
-          .trendingPostDate.cardCreatedDate= story.createdAt
-
-  hr.divider
-
-  .feedContainer
-    .storyContainer
-      each story in stories
-        .storySection
-          .storyInfoDiv
-            .storyAuthorName: +authorBlurb(story.Author)
-            a(href=`/stories/${story.id}`).storyLink #{story.title}
-            .storyCreatedAt= story.createdAt
-            +storyIcons(story)
-            //- .createBookmarkButtonFeed: a(data-storyid=story.storyId).bookmarkButtonFeed
-          .storyPicDiv
-            .storyImgDiv
-              img(src=`/assets/stories/${story.id}-1.jpg`)
-    .bookmarkFeedContainer
-      .noBookmarksForAuthor
-        .bookmarkMessage        Bookmark stories for later
-        .bookmarkInstructions   Start saving stories by clicking the bookmark icon and you’ll find them all here.
-      //- .bookmarkSection
-      //-     .bookmarkTitle
-      //-     .bookmarkAuthor
-      //- .bookmarkTitle #{bookmark.title}
-      //- .bookmarkAuthor #{bookmark.authorId}
-
-
-//-  each bookmark in bookmarks
+      p Start saving stories by clicking the bookmark icon and you’ll find them all here.

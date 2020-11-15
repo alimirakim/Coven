@@ -79,8 +79,8 @@ demoLogin.forEach(elem => {
         user: { id },
       } = await res.json();
       // storage access_token in localStorage:
-      localStorage.setItem("MEDIUM_ACCESS_TOKEN", token);
-      localStorage.setItem("MEDIUM_CURRENT_USER_ID", id);
+      // localStorage.setItem("MEDIUM_ACCESS_TOKEN", token);
+      // localStorage.setItem("MEDIUM_CURRENT_USER_ID", id);
       // redirect to home page
       window.location.href = "/";
     } catch (err) {
@@ -113,8 +113,8 @@ logInForm.addEventListener("submit", async (e) => {
       user: { id },
     } = await res.json();
     // storage access_token in localStorage:
-    localStorage.setItem("MEDIUM_ACCESS_TOKEN", token);
-    localStorage.setItem("MEDIUM_CURRENT_USER_ID", id);
+    // localStorage.setItem("MEDIUM_ACCESS_TOKEN", token);
+    // localStorage.setItem("MEDIUM_CURRENT_USER_ID", id);
     // redirect to home page:
     window.location.href = "/";
   } catch (err) {
@@ -148,8 +148,8 @@ signUpForm.addEventListener("submit", async (e) => {
       console.log("jsonRes is ", jsonRes)
       const { token, newUser: { id } } = jsonRes
       // storage access_token in localStorage:
-      localStorage.setItem("MEDIUM_ACCESS_TOKEN", token);
-      localStorage.setItem("MEDIUM_CURRENT_USER_ID", id);
+      // localStorage.setItem("MEDIUM_ACCESS_TOKEN", token);
+      // localStorage.setItem("MEDIUM_CURRENT_USER_ID", id);
       // redirect to home page
       window.location.href = "/";
     }

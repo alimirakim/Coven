@@ -2,7 +2,7 @@ const commentSubmitBtn = document.getElementById('submitComment');
 const commentForm = document.getElementById('commentForm');
 const commentList = document.getElementById('commentList');
 const commentText = document.getElementById('comment');
-const currentUser = localStorage.MEDIUM_CURRENT_USER_ID;
+// const currentUser = localStorage.MEDIUM_CURRENT_USER_ID;
 const userNameDisplay = document.getElementById('currentUserName');
 const storyInfo = JSON.parse(document.getElementById('story-title').dataset.storyinfo);
 

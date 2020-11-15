@@ -68,10 +68,11 @@ usersRouter.post("/",
       firstName, lastName, email, hashedPassword, bio: ""
     })
     const token = makeUserToken(user)
-    delete user.hashedPassword
-    console.log("\ndeleted hash?", user)
+    delete user.hashedPassword;
+    const maxAge = 720 * 60 * 60
     res.cookie("COVEN_TOKEN", token, { maxAge })
     res.cookie("COVEN_ID", user.id, { maxAge })
+    console.log("\nruh roh")
     res.status(201).json({ token, user })
   })
 )

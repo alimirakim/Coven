@@ -51,8 +51,8 @@ function signupNewUser() {
 
     if (res.ok) {
       const { token, user } = await res.json()
-      localStorage.setItem("COVEN_TOKEN", token)
-      localStorage.setItem("COVEN_ID", user.id)
+      // localStorage.setItem("COVEN_TOKEN", token)
+      // localStorage.setItem("COVEN_ID", user.id)
       generateWelcomeMessage(user)
       await fadeoutElement(signupPage)
       updateLoginStateElements()
@@ -111,8 +111,8 @@ function loginUser() {
     })
     if (res.ok) {
       const { token, id } = await res.json()
-      localStorage.setItem("COVEN_TOKEN", token)
-      localStorage.setItem("COVEN_ID", id)
+      // localStorage.setItem("COVEN_TOKEN", token)
+      // localStorage.setItem("COVEN_ID", id)
       updateLoginStateElements()
       loginPage.classList.add("is-hidden")
     } else {

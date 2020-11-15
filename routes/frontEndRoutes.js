@@ -33,17 +33,22 @@ frontEndRouter.get("/feed", csrfProtection,
     res.render('feed', { title: "My Feed", csrfToken: req.csrfToken(), stories, api });
   }));
 
+  
+  
+  // TODO TODO TODO
+  // Hide login/signup buttons when logged in
+  // refresh state after login/signup to show new content
+  // logout
 
+  // the fancy editor widget!!!
 
 // Home page. Splash + Feed
 frontEndRouter.get("/", csrfProtection, asyncHandler(async (req, res) => {
   const cookies = getCookies(req)
-  console.log("COOKIES?", cookies.COVEN_TOKEN)
   let authCheck = await fetch(`${api}/api/users/user`, {
     headers: { Authorization: `Bearer ${cookies.COVEN_TOKEN}` }
   })
   if (authCheck.ok) {
-    console.log("\nPARTY")
     let stories = await getAllStories()
     let discoveryStories = await getDiscoveryStories()
     // TODO Check if this has an off-by-one issue.
