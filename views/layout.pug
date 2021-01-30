@@ -26,17 +26,21 @@ html(lang='en')
         //- .leftNav
       a(href="/") Coven
       //- p.greetingTag
-      div.l-twins.anon
-        button.anon.log-btn Login
-        button.anon.sup-btn Join
       
-      nav.user
-        //- button.drop: img(src=`/assets/icons/userid.jpg`).avi
-        ul.drop
-          li: a(href=`/users/`) Profile
-          li: a(href=`/write`) Write
-          li: a(href=`/users/id/bookmarks`) Bookmarks
-          li: button.logout Logout
+      unless isUser
+        div.l-twins.anon
+          button.anon.demo-btn Demo
+          button.anon.log-btn Login
+          button.anon.sup-btn Join
+      
+      if isUser
+        nav.user
+          //- button.drop: img(src=`/assets/icons/userid.jpg`).avi
+          ul.drop
+            li: a(href=`/users/`) Profile
+            li: a(href=`/write`) Write
+            li: a(href=`/users/id/bookmarks`) Bookmarks
+            li: button.logout Logout
         //- li.demoLogIn.hidden: a.button.demo#demoLink Demo Login
         //- li.signInButton: a.button#signInButton.signInBanner Login
         //- li.signUpButton: a.button#signUpButton.signUpBanner Sign up
@@ -53,27 +57,18 @@ html(lang='en')
             //-     li: a.button#profileButton Profile
             //-     li: a.button#createStoryButton Write
             //-     li: a.button#logoutButton Log out
+            
     block signup
     block login
     
     block content
 
-    //- footer.mainFooter.splashFooter.hidden
     footer#footer
-      //- h2.logo: a(href="/").footerLogo C
       a(href="/") C
-      nav.ftr-nav
-        ul
-          li: a(href="#top") Top
-          li: a(href="/contact") Credit
-          li: button.anon.sup-btn Join
-          li: button.anon.log-btn Login
-          //- li: a(href="#top").footerLink Top
-          //- li: a(href="/contact").footerLink Credit
-          //- li: a(href="/").footerLink.signUpBanner Join
-          //- li: a.footerLink.signInBanner Login
+
       address
-        a(href="https://github.com/alimirakim") Visit Mira's GitHub
-        a(href="email:alicia.mira.kim@gmail.com") Contact Mira
+        a(href="https://github.com/alimirakim") GitHub
+        a(href="") LinkedIn
+        a(href="email:alicia.mira.kim@gmail.com") email
         
       small © 2020 Warren Tamagri, Cinthia Spence, Clayton Reinhardt, Mira Kim

@@ -116,25 +116,25 @@ const createText = document.createTextNode.bind(document)
 //   })
 // })
 
-document.querySelectorAll('.likeIcon').forEach(like => {
-  like.addEventListener('click', e => {
-    if (e.target.classList.contains('liked')) {
-      e.target.classList.remove('liked')
-    } else {
-      e.target.classList.add('liked');
-    }
-  });
-});
+// document.querySelectorAll('.likeIcon').forEach(like => {
+//   like.addEventListener('click', e => {
+//     if (e.target.classList.contains('liked')) {
+//       e.target.classList.remove('liked')
+//     } else {
+//       e.target.classList.add('liked');
+//     }
+//   });
+// });
 
-document.querySelectorAll('.bookmarkIcon').forEach(like => {
-  like.addEventListener('click', e => {
-    if (e.target.classList.contains('bookmarked')) {
-      e.target.classList.remove('bookmarked')
-    } else {
-      e.target.classList.add('bookmarked');
-    }
-  });
-});
+// document.querySelectorAll('.bookmarkIcon').forEach(like => {
+//   like.addEventListener('click', e => {
+//     if (e.target.classList.contains('bookmarked')) {
+//       e.target.classList.remove('bookmarked')
+//     } else {
+//       e.target.classList.add('bookmarked');
+//     }
+//   });
+// });
 
 // for the number next to the like icon add the class '.likeCount'
 // then add this in the if I just sent:

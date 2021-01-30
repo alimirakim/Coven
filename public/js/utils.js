@@ -1,3 +1,4 @@
+import { getCookies } from "../../utils";
 
 export const handleErrors = async (err) => {
     if (err.status >= 400 && err.status < 600) {
@@ -30,7 +31,12 @@ export const handleErrors = async (err) => {
     }
   };
 
-export const loggedIn = () =>{
+export const loggedIn = () => {
+  debugger
+    console.log("cookies", document.cookies)
+    const cookies = getCookies(document.cookie)
+    console.log("cookies", cookies)
+    return cookies.userId
     // const userId = localStorage.getItem("MEDIUM_CURRENT_USER_ID");
     // if(userId) return userId;
     // return false;

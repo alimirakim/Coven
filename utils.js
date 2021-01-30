@@ -8,8 +8,8 @@ function asyncHandler(handler) {
 }
 
 
-function getCookies(req) {
-  const rawCookies = req.headers.cookie.split("; ");
+function getCookies(cookiesString) {
+  const rawCookies = cookiesString.split("; ");
   const bakedCookies = {}
   rawCookies.forEach(cookie => {
     const bakedCookie = cookie.split("=")
