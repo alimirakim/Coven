@@ -8,14 +8,35 @@ function asyncHandler(handler) {
 }
 
 
-function getCookies(cookiesString) {
-  const rawCookies = cookiesString.split("; ");
-  const bakedCookies = {}
+function getCookies(cookies) {
+  if (cookies) {
+    const rawCookies = cookies.split("; ");
+    const bakedCookies = {}
+    rawCookies.forEach(cookie => {
+      const bakedCookie = cookie.split("=")
+      bakedCookies[bakedCookie[0]] = bakedCookie[1]
+    })
+    return bakedCookies
+  }
+  return {}
+}
+
+function deleteCookies() {
+  const rawCookies = document.cookie.split("; ")
   rawCookies.forEach(cookie => {
-    const bakedCookie = cookie.split("=")
-    bakedCookies[bakedCookie[0]] = bakedCookie[1]
+    const localHostName = window.location.hostname.split(".")
+    while (localHostName.length > 0) {
+      const cookieBase = encodeURIComponent(rawCookies[cookie]
+        .split(";")[0].split("=")[0]) + "=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=" + localHostName.join(".") + " ;path="
+      const path = location.pathname.split('/')
+      document.cookie = cookieBase + "/"
+      while (path.length > 0) {
+        document.cookie = cookieBase + path.join("/")
+        path.pop()
+      }
+      localHostName.shift()
+    }
   })
-  return bakedCookies
 }
 
 
@@ -128,6 +149,7 @@ const storyInclude = [{
 module.exports = {
   asyncHandler,
   getCookies,
+  deleteCookies,
   handleValidationErrors,
   contentNotFound,
   deleteForStory,
