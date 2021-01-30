@@ -8,16 +8,20 @@ block content
   article.fst
     article.fst-feature
       h2 Featured
+      
+      //- TODO Fetch main featured story
       //- +storyCell(featuredStory)
-    .l-side
-      //- each story in feedStories
-      //-   article.fst-cell
-      //-     +storyCell(story)
+      
+    //- TODO Fetch featuredStories
+    //- .l-side
+      each story in featuredStories
+        article.fst-cell
+          +storyCell(story)
     
     
   .l-left-panel
     //- .fol = FOLlowed authors
-    //- TODO Show follows that have the latest written stories
+    //- TODO Fetch latest stories from followed authors
     article.fol
       h2 Latest From Following
       //- each follow in follows
@@ -26,6 +30,7 @@ block content
       //-     h3 #{follow.firstName} #{follow.lastName}
         
     //- .top = TOPic watches
+    //- TODO Fetch stories based on latest+watched tags filtered
     article.top
       h2 Topics You Watch
       //- each watch in watches
@@ -36,6 +41,7 @@ block content
     
   hr.divider
 
+  //- discovery stories
   article.dst
     h2 DISCOVER AT COVEN
     each story in discoveryStories
@@ -53,7 +59,7 @@ block content
   //- .lst = Latest STories
   article.fst
     h2 Our Latest Stories
-    each story in stories
+    each story in latestStories
       article.fst-cell
         +storyCell(story)
   
@@ -62,8 +68,8 @@ block content
   article.bst
     h2 Your Bookmarks
     if isEnoughBookmarks
-      each story in bookmarkedStories
-        article.bst-cell
-          +storyCell(story)
+      //- each bookmark in bookmarks
+      //-   article.bst-cell
+      //-     +storyCell(bookmark)
     else
       p Start saving stories by clicking the bookmark icon and you’ll find them all here.

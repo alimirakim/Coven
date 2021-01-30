@@ -44,7 +44,6 @@ const frontEndRouter = express.Router();
 
 // Home page. Splash + Feed
 frontEndRouter.get("/", csrfProtection, asyncHandler(async (req, res) => {
-  // Check for user cookies
   const cookies = getCookies(req.headers.cookie)
   let authCheck = await fetch(`${api}/api/users/user`, {
     headers: { Authorization: `Bearer ${cookies.COVEN_TOKEN}` }
@@ -52,16 +51,19 @@ frontEndRouter.get("/", csrfProtection, asyncHandler(async (req, res) => {
   
   // Return user dashboard
   if (authCheck.ok) {
-    let stories = await getAllStories()
+    let latestStories = await getAllStories()
     let discoveryStories = await getDiscoveryStories()
     // TODO Check if this has an off-by-one issue.
-    let bookmarks = await getBookmarkedStoriesForUser(1)
-    const isEnoughBookmarks = bookmarks.length >= 6
+    let bookmarks = await getBookmarkedStoriesForUser(cookies.COVEN_ID)
+    console.log("bookmarks!", bookmarks)
+    console.log("latestStories!", latestStories)
+    const isEnoughBookmarks = bookmarks.length > 0
     if (isEnoughBookmarks) bookmarks = rankStories(bookmarks)
     res.render("feed", {
       title: "Coven - Home",
       csrfToken: req.csrfToken(),
-      stories,
+      isUser: true,
+      latestStories,
       discoveryStories,
       bookmarks,
       isEnoughBookmarks,

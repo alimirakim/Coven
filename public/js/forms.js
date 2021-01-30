@@ -70,7 +70,6 @@ function generateWelcomeMessage(user) {
   const h2Welcome = create("h2")
   h2Welcome.innerHTML = "Thank you"
   const buttonX = create("button")
-  buttonX.classList.add("log-x", "l-exit")
   buttonX.setAttribute("type", "button")
   buttonX.innerHTML = "X"
   const p1 = create("p")
