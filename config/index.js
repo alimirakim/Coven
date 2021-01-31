@@ -7,7 +7,7 @@ module.exports = {
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
   },
-  api: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://medayum.herokuapp.com',
+  api: process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://welcome-to-coven.herokuapp.com',
   jwtConfig: {
     secret: process.env.JWT_SECRET,
     expiresIn: process.env.JWT_EXPIRES_IN,
