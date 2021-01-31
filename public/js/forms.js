@@ -205,6 +205,42 @@ function logoutUser() {
   })
 }
 
+
+// Follow/unfollow on button-click
+function toggleFollow() {
+  const followBtns = queryAll(".fol-btn")
+  followBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      console.log("e.target", e.target)
+      const res = fetch(`../routes/users/${e.target.id}/follow`)
+      const result = res.json()
+      btn.classList.toggle("is-active", result.followed === true)
+    })
+  })
+}
+
+
+// Like/unlike on button-click
+function toggleLike() {
+  const likeBtns = queryAll(".lik-btn")
+  
+}
+
+
+// Bookmark/unbookmark on button-click
+function toggleBookmark() {
+  const bookmarkBtns = queryAll(".bkm-btn")
+  
+}
+
+
+// Watch/unwatch tag on button-click
+function toggleWatch() {
+  const tagBtns = queryAll(".tag")
+  
+}
+
+
 signupNewUser()
 loginUser()
 logoutUser()
