@@ -1,7 +1,8 @@
 const express = require('express')
 const csrf = require('csurf')
 const fetch = require('node-fetch')
-const { asyncHandler, getCookies, rankStories } = require('../utils')
+const { asyncHandler, rankStories } = require('../utils')
+const { checkUser } = require("../auth")
 const { api } = require('../config')
 const {
   getUser,
@@ -22,64 +23,108 @@ const { render } = require('pug')
 const csrfProtection = csrf({ cookie: true });
 const frontEndRouter = express.Router();
 
-// Individual Story page.
-// frontEndRouter.get("/stories/:id(\\d+)", async (req, res) => {
-//   const story = await getStory(req.params.id)
-//   res.render('story-layout', { story, title: story.title, api });
-// })
+
+
+// TODO TODO TODO
+// Hide login/signup buttons when logged in
+// refresh state after login/signup to show new content
+
+
+// Home page. Splash + Feed
+frontEndRouter.get("/",
+  csrfProtection,
+  asyncHandler(checkUser),
+  asyncHandler(async (req, res) => {
+    // Return user dashboard
+    if (req.isUser) {
+      let latestStories = await getAllStories()
+      let discoveryStories = await getDiscoveryStories()
+      // TODO Check if this has an off-by-one issue.
+      let bookmarks = await getBookmarkedStoriesForUser(req.COVEN_ID)
+      const isEnoughBookmarks = bookmarks.length > 0
+      if (isEnoughBookmarks) bookmarks = rankStories(bookmarks)
+      res.render("feed", {
+        title: "Coven - Home",
+        userId: req.COVEN_ID,
+        csrfToken: req.csrfToken(),
+        latestStories,
+        discoveryStories,
+        bookmarks,
+        isEnoughBookmarks,
+      })
+
+      // Return splash
+    } else {
+      let topics = await fetch(`${api}/api/topics`)
+      topics = await topics.json()
+      res.render('splash', {
+        title: "Coven",
+        csrfToken: req.csrfToken(),
+        userId: req.COVEN_ID,
+        topics,
+      })
+    }
+  }))
+
+// Story page
+frontEndRouter.get("/stories/:id(\\d+)",
+  csrfProtection,
+  asyncHandler(checkUser),
+  async (req, res) => {
+    const story = await getStory(req.params.id)
+    res.render('story-layout', {
+      title: "Coven - " + story.title,
+      csrfToken: req.csrfToken(),
+        userId: req.COVEN_ID,
+        story,
+    })
+  })
+
+
+// Write story form
+frontEndRouter.get("/write",
+  csrfProtection,
+  asyncHandler(checkUser),
+  asyncHandler(async (req, res) => {
+    if (!req.isUser) res.redirect(`${api}`)
+    let topics = await fetch(`${api}/api/topics`)
+    topics = await topics.json()
+    res.render('write', {
+      title: "Coven - Publish an article on Coven.",
+      csrfToken: req.csrfToken(),
+        userId: req.COVEN_ID,
+        topics,
+    })
+  })
+)
+
+
+// User profile
+frontEndRouter.get("/users/:id(\\d+)/:tab", 
+  csrfProtection,
+  asyncHandler(async (req, res) => {
+    const user = await getUser(req.params.id)
+    const tab = req.params.tab
+    const followCounts = await getFollowCounts(req.params.id)
+    const userStories = await getStoriesByUser(req.params.id)
+    console.log("\ntab", tab)
+    res.render('profile',
+      { 
+        csrfToken: req.csrfToken(), 
+        tab,
+        user, 
+        followCounts, 
+        userStories, 
+      });
+  }))
+
 
 // frontEndRouter.get("/feed", csrfProtection,
 //   asyncHandler(async (req, res) => {
 //     res.render('feed', { title: "My Feed", csrfToken: req.csrfToken(), stories, api });
 //   }));
 
-  
-  
-  // TODO TODO TODO
-  // Hide login/signup buttons when logged in
-  // refresh state after login/signup to show new content
-  // logout
 
-  // the fancy editor widget!!!
-
-// Home page. Splash + Feed
-frontEndRouter.get("/", csrfProtection, asyncHandler(async (req, res) => {
-  const cookies = getCookies(req.headers.cookie)
-  let authCheck = await fetch(`${api}/api/users/user`, {
-    headers: { Authorization: `Bearer ${cookies.COVEN_TOKEN}` }
-  })
-  
-  // Return user dashboard
-  if (authCheck.ok) {
-    let latestStories = await getAllStories()
-    let discoveryStories = await getDiscoveryStories()
-    // TODO Check if this has an off-by-one issue.
-    let bookmarks = await getBookmarkedStoriesForUser(cookies.COVEN_ID)
-    console.log("bookmarks!", bookmarks)
-    console.log("latestStories!", latestStories)
-    const isEnoughBookmarks = bookmarks.length > 0
-    if (isEnoughBookmarks) bookmarks = rankStories(bookmarks)
-    res.render("feed", {
-      title: "Coven - Home",
-      csrfToken: req.csrfToken(),
-      isUser: true,
-      latestStories,
-      discoveryStories,
-      bookmarks,
-      isEnoughBookmarks,
-    })
-    
-  // Return splash
-  } else {
-    let topics = await fetch(`${api}/api/topics`)
-    topics = await topics.json()
-    res.render('splash', {
-      title: "Coven",
-      csrfToken: req.csrfToken(),
-      topics,
-    })
-  }
-}))
 
 // //sign up form
 // frontEndRouter.get("/signup", csrfProtection, (req, res) => {
@@ -111,15 +156,6 @@ frontEndRouter.get("/", csrfProtection, asyncHandler(async (req, res) => {
 // }))
 
 
-// //user profile
-// frontEndRouter.get("/users/:id(\\d+)", csrfProtection,
-//   asyncHandler(async (req, res) => {
-//     const user = await getUser(req.params.id)
-//     const followCounts = await getFollowCounts(req.params.id)
-//     const userStories = await getStoriesByUser(req.params.id)
-//     res.render('profile-tab-stories',
-//       { csrfToken: req.csrfToken(), user, followCounts, userStories, api });
-//   }))
 
 // frontEndRouter.get("/users/:id(\\d+)/comments", csrfProtection,
 //   asyncHandler(async (req, res) => {
@@ -166,10 +202,8 @@ frontEndRouter.get("/", csrfProtection, asyncHandler(async (req, res) => {
 // // frontEndRouter.get("/users/:id/edit", csrfProtection, (req, res) => {
 // //   res.render('edit-profile', { csrfToken: req.csrfToken() });
 // // });
-// //create new story form
-// frontEndRouter.get("/create", csrfProtection, (req, res) => {
-//   res.render('create', { csrfToken: req.csrfToken(), api });
-// });
+
+
 // //display story edit form
 // frontEndRouter.get("/stories/:id/edit", csrfProtection, (req, res) => {
 //   res.render('story-edit-layout', { csrfToken: req.csrfToken(), api });

@@ -47,12 +47,12 @@ usersRouter.get("/user",
 )
 
 // Get User by id
-// usersRouter.get("/:id(\\d+)",
-//   asyncHandler(checkForUser),
-//   asyncHandler(async (req, res) => {
-//     res.json(req.user)
-//   })
-// )
+usersRouter.get("/:id(\\d+)",
+  asyncHandler(checkForUser),
+  asyncHandler(async (req, res) => {
+    res.json(req.user)
+  })
+)
 
 
 // Create a new User.

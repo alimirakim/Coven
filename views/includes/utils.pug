@@ -46,13 +46,13 @@ mixin storyIcons(story)
   .icons
     button(name="like").btnLike
       div.storyIcon.likeIcon
-      span.iconLabel #{story.Likes.length} Likes
+      span.iconLabel.fas.fa-heart #{story.Likes.length} Likes
     button(name="comments").btnComment
       div.storyIcon.commentIcon
-      span.iconLabel #{story.Comments.length} Replies
+      span.iconLabel.fas.fa-comment-dots #{story.Comments.length} Replies
     button(name="bookmark").btnBookmark
       div.storyIcon.bookmarkIcon
-      span.iconLabel Save
+      span.iconLabel.fas.fa-bookmark Save
 
 mixin storyCardMini(story)
   .storyCardMini

@@ -14,17 +14,15 @@ const storiesRouter = require("./routes/backend-routes/stories")
 const commentsRouter = require("./routes/backend-routes/comments")
 const topicsRouter = require("./routes/backend-routes/topics")
 
-log("\nSTARTING APP")
 const app = express()
 app.use(express.json())
 app.set("view engine", "pug")
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public")))
 const morgan = require("morgan")
 app.use(morgan("dev"))
 
-log("\nAPP SET UP")
 
 // Backend Routes
 app.use(frontEndRouter)
@@ -35,9 +33,6 @@ app.use("/api", commentsRouter)
 app.use("/api", bookmarksRouter)
 app.use("/api", likesRouter)
 app.use("/api", topicsRouter)
-
-log("\nROUTES SET UP")
-
 
 
 // 404 Catch unhandled requests
@@ -63,7 +58,7 @@ app.use((err, req, res, next) => {
     errors: err.errors || []
   }
 
-  if(err.status === 404) res.render("notFound", errorData)
+  if (err.status === 404) res.render("notFound", errorData)
 
   else { res.json(errorData) }
 });

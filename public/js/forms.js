@@ -1,6 +1,6 @@
 
 // import { deleteCookies } from '../../utils.js';
-import { loggedIn } from './utils.js';
+// import { loggedIn } from './utils.js';
 const query = document.querySelector.bind(document)
 const queryAll = document.querySelectorAll.bind(document)
 const create = document.createElement.bind(document)
@@ -22,8 +22,6 @@ const signupExitBtn = query(".sup-x")
 const signupForm = query("#sup-form")
 const signupSmallBtn = query(".sup-sml")
 const signupErrorsSection = query(".sup-err")
-
-// ELEMENT VARIABLES Logout Button
 
 // ELEMENT VARIABLES Form inputs
 const signupFirstNameInput = query(".sup-first")
@@ -55,7 +53,6 @@ function signupNewUser() {
     if (res.ok) {
       generateWelcomeMessage(user)
       await fadeoutElement(signupPage)
-      updateLoginStateElements()
       location.reload()
 
     } else {
@@ -101,6 +98,7 @@ async function fadeoutElement(el) {
 function loginUser() {
   loginForm.addEventListener("submit", async (ev) => {
     ev.preventDefault()
+    console.log("yellow")
     const form = new FormData(loginForm)
     const email = form.get("email")
     const password = form.get("password")
@@ -112,7 +110,6 @@ function loginUser() {
       body: JSON.stringify({ email, password })
     })
     if (res.ok) {
-      updateLoginStateElements()
       loginPage.classList.add("is-hidden")
       window.location.reload()
     } else {
@@ -132,22 +129,6 @@ function displayErrors(title, errors, errorSection) {
     ul.innerHTML += `<li>${error}</li>`
   })
   errorSection.replaceChildren(h3, ul)
-}
-
-
-// HELPER general, state-change
-function updateLoginStateElements() {
-  let isLoggedIn = loggedIn()
-  const anonElements = queryAll(".anon")
-  const userElements = queryAll(".user")
-
-  if (isLoggedIn) {
-    for (const el of anonElements) { el.classList.add('is-hidden') }
-    for (const el of userElements) { el.classList.remove('is-hidden') }
-  } else {
-    for (const el of anonElements) { el.classList.remove('is-hidden') }
-    for (const el of userElements) { el.classList.add('is-hidden') }
-  }
 }
 
 
@@ -229,4 +210,3 @@ loginUser()
 logoutUser()
 toggleDisplayLoginSignupForms()
 swapLoginSignupForm()
-// updateLoginStateElements()

@@ -9,13 +9,12 @@ block content
   article.str
     h1= story.title
     h2= story.subtitle
-    +authorBlurb
+    +authorBlurb(story.Author)
     time(datetime=`${story.createdAt}`)= story.createdAt
-    button.btn-bookmark
+    button.btn-bookmark.fas.fa.fa-bookmark
     img(src=`/assets/stories/${ story.id }-1.jpg` alt=``)
 
-    section.str-body
-      story.body
+    section.str-body!= story.body
 
     section.str-widgets
       +storyIcons(story)
@@ -24,21 +23,21 @@ block content
     aside.l-panel.str-side
       section.str-side-author
         h3 Written By
-          span.author story.Author
-        p story.Author.bio
-        button.btn-follow 
+          span.author #{story.Author.firstName} #{story.Author.lastName}
+        p= story.Author.bio
+        button.btn-follow Follow
       hr
       section.str-side-widgets
         +storyIcons(story)
         
         
     .author-highlight
-      +authorBlurb
+      +authorBlurb(story.Author)
 
     //- .ast = Author STories
     article.ast
       h2 More From #{story.Author.firstName} #{story.Author.lastName}
-      each story in authorStories
+      //- each story in authorStories
         article.ast-cell
           +storyCell(story)
 
@@ -50,13 +49,21 @@ block content
         button Cancel
         button Respond
       h2 Comments
-      each comment in comments
+      //- each comment in comments
         //- TODO Maybe not a whole 'blurb'?
-        +authorBlurb(comment.User)
+        //- +authorBlurb(comment.User)
         time(datetime=`${comment.createdAt}`)= comment.createdAt
         .cmt-body comment.body
         //- TODO Edit/Delete buttons for logged-in users?
         hr
+
+
+
+
+
+
+
+
 
   //- article(class="story-container")
   //-   h1(class="story-title" id="story-title" data-story=story)= story.title
